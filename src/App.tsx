@@ -10,6 +10,9 @@ import { useCCTVData, InfraestructuraItem, ComparativaItem, BeneficioItem, ROIIt
 import { generateCCTVPDF, generateControlAccesoPDF, type PDFData } from './utils/pdfGenerator';
 import { CCTVGrid, currencyFormatter, numberFormatter } from './components/CCTVGrid';
 
+// Base URL for assets (works with GitHub Pages)
+const BASE_URL = import.meta.env.BASE_URL || '/';
+
 // ============================================================
 // TAB CONFIGURATION
 // ============================================================
@@ -44,7 +47,7 @@ const ResumenEjecutivo = ({ data, totalInversionActual, totalCotizacion, totalCa
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            src="/images/logo.png" 
+            src={`${BASE_URL}images/logo.png`} 
             alt="JEIVIAN Logo" 
             className="h-24 mx-auto mb-8 drop-shadow-[0_0_30px_rgba(79,70,229,0.3)]"
           />
@@ -64,9 +67,9 @@ const ResumenEjecutivo = ({ data, totalInversionActual, totalCotizacion, totalCa
         {/* Featured Hardware Showcase */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {[
-            { img: '/images/camera.png', title: 'UVC G6 Bullet', tag: 'Cámara 4K IA', desc: 'Detección de largo alcance y visión nocturna ultra clara.' },
-            { img: '/images/server.png', title: 'Protect ENVR', tag: 'Almacenamiento', desc: 'Grabación segura en espejo con 16 bahías de alta capacidad.' },
-            { img: '/images/ai_key.png', title: 'NeXT AI Key', tag: 'Procesamiento', desc: 'Búsqueda instantánea por lenguaje natural y reconocimiento facial.' },
+            { img: `${BASE_URL}images/camera.png`, title: 'UVC G6 Bullet', tag: 'Cámara 4K IA', desc: 'Detección de largo alcance y visión nocturna ultra clara.' },
+            { img: `${BASE_URL}images/server.png`, title: 'Protect ENVR', tag: 'Almacenamiento', desc: 'Grabación segura en espejo con 16 bahías de alta capacidad.' },
+            { img: `${BASE_URL}images/ai_key.png`, title: 'NeXT AI Key', tag: 'Procesamiento', desc: 'Búsqueda instantánea por lenguaje natural y reconocimiento facial.' },
           ].map((item, i) => (
             <motion.div 
               key={i}
@@ -252,7 +255,7 @@ const Cotizacion = ({ data, activeTab, setActiveTab, totalCotizacion }: any) => 
           >
             {/* Header with Background Image */}
             <div className="relative h-56 overflow-hidden">
-              <img src="/images/server.png" alt="Sistema Base" className="w-full h-full object-cover opacity-30 group-hover:scale-105 transition-transform duration-1000" />
+              <img src={`${BASE_URL}images/server.png`} alt="Sistema Base" className="w-full h-full object-cover opacity-30 group-hover:scale-105 transition-transform duration-1000" />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent"></div>
               <div className="absolute bottom-6 left-8 flex items-center gap-5">
                 <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-amber-600 rounded-2xl flex items-center justify-center text-3xl shadow-2xl border border-white/10 ring-4 ring-orange-500/20">🚀</div>
@@ -332,7 +335,7 @@ const Cotizacion = ({ data, activeTab, setActiveTab, totalCotizacion }: any) => 
           >
             {/* Header with Background Image */}
             <div className="relative h-56 overflow-hidden">
-              <img src="/images/camera.png" alt="Expansión" className="w-full h-full object-cover opacity-30 group-hover:scale-105 transition-transform duration-1000" />
+              <img src={`${BASE_URL}images/camera.png`} alt="Expansión" className="w-full h-full object-cover opacity-30 group-hover:scale-105 transition-transform duration-1000" />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent"></div>
               <div className="absolute bottom-6 left-8 flex items-center gap-5">
                 <div className="w-16 h-16 bg-gradient-to-br from-emerald-600 to-teal-700 rounded-2xl flex items-center justify-center text-3xl shadow-2xl border border-white/10 ring-4 ring-emerald-500/20">📈</div>
@@ -1716,7 +1719,7 @@ export default function App() {
             <div className="flex items-center gap-4">
               <div className="relative group">
                 <img 
-                  src="/images/logo.png" 
+                  src={`${BASE_URL}images/logo.png`} 
                   alt="JEIVIAN Logo" 
                   className="h-14 w-auto object-contain transition-transform group-hover:scale-105"
                 />
@@ -1782,7 +1785,7 @@ export default function App() {
 
       <footer className="py-12 px-6 bg-slate-950 border-t border-white/5 text-center">
         <div className="mb-6 flex justify-center">
-          <img src="/images/logo.png" alt="JEIVIAN Logo" className="h-12 w-auto opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all" />
+          <img src={`${BASE_URL}images/logo.png`} alt="JEIVIAN Logo" className="h-12 w-auto opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all" />
         </div>
         <p className="font-black text-white mb-2 tracking-widest uppercase text-sm">JEIVIAN Security Systems</p>
         <p className="text-slate-500 text-xs">Propuesta Tecnológica CCTV IP con IA | Enero 2026</p>
