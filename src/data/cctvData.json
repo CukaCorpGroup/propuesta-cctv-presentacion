@@ -1,0 +1,167 @@
+{
+  "situacionActual": {
+    "infraestructura": [
+      { "id": 1, "item": "Cámaras Analógicas", "cantidad": 117, "precioUnitario": 45, "total": 5265 },
+      { "id": 2, "item": "DVRs (Digital Video Recorders)", "cantidad": 11, "precioUnitario": 350, "total": 3850 }
+    ],
+    "caracteristicas": {
+      "resolucion": "1080p (2 MP)",
+      "tiempoGrabacion": 15
+    }
+  },
+  "cotizacion": {
+    "items": [
+      { "id": 1, "categoria": "CONECTIVIDAD", "componente": "Cableado UTP Cat6", "descripcion": "Punto de red certificado Cat6 para cámara IP, incluye instalación y certificación", "cantidad": 25, "precioUnitario": 150.00, "total": 3750.00, "icono": "🔌", "url": "" },
+      { "id": 2, "categoria": "CONECTIVIDAD", "componente": "Patch Cord Cat6", "descripcion": "Cable de conexión RJ45 Cat6 de 1.5m para conexión cámara-switch", "cantidad": 25, "precioUnitario": 5.50, "total": 137.50, "icono": "🔗", "url": "" },
+      { "id": 3, "categoria": "CONECTIVIDAD", "componente": "Switch PoE 48 Puertos", "descripcion": "Switch empresarial PoE++ de 48 puertos para alimentación de cámaras IP", "cantidad": 2, "precioUnitario": 990.00, "total": 1980.00, "icono": "⚡", "url": "https://store.ui.com/us/en/category/all-switching/collections/unifi-switching-pro-poe" },
+      { "id": 4, "categoria": "ALMACENAMIENTO", "componente": "UniFi Protect ENVR", "descripcion": "NVR Enterprise 3U con 16 bahías 2.5/3.5\", soporta hasta 70 cámaras 4K o 210 cámaras Full HD", "cantidad": 1, "precioUnitario": 2498.75, "total": 2498.75, "icono": "🖥️", "url": "https://store.ui.com/us/en/category/cameras-nvrs/products/envr" },
+      { "id": 5, "categoria": "ALMACENAMIENTO", "componente": "Discos 24TB Enterprise", "descripcion": "UACC-HDD-E-24TB: Disco Enterprise 3.5\" SATA 7200RPM, 550TB/año workload, 2.5M horas MTBF", "cantidad": 6, "precioUnitario": 690.34, "total": 4142.04, "icono": "💾", "url": "https://store.ui.com/us/en/category/cameras-accessories/products/uacc-hdd-e-24" },
+      { "id": 6, "categoria": "CÁMARAS", "componente": "UVC-G6-Bullet-W", "descripcion": "Cámara Turret Ultra 4K (8MP) con Multi-TOPS AI Engine, detección personas/vehículos/animales, IP66", "cantidad": 25, "precioUnitario": 249.08, "total": 6227.00, "icono": "📷", "url": "https://store.ui.com/us/en/category/cameras-702/products/uvc-g6-bullet" },
+      { "id": 7, "categoria": "ANALÍTICA IA", "componente": "Ubiquiti AI-Key", "descripcion": "Edge AI Appliance con NeXT AI, 1,800 detecciones/hora, reconocimiento facial y placas, búsqueda por lenguaje natural", "cantidad": 1, "precioUnitario": 1389.00, "total": 1389.00, "icono": "🤖", "url": "https://store.ui.com/us/en/category/cameras-702/products/ai-key" },
+      { "id": 8, "categoria": "SERVICIOS", "componente": "Transporte Nacional", "descripcion": "Servicio de transporte e importación directa de equipos", "cantidad": 1, "precioUnitario": 48.00, "total": 48.00, "icono": "🚚", "url": "" }
+    ],
+    "notas": [
+      { "id": 1, "titulo": "Disponibilidad", "contenido": "Productos bajo importación directa. Tiempo estimado de entrega: 60 días a partir de la confirmación del pago del 40% anticipo." },
+      { "id": 2, "titulo": "Transporte", "contenido": "Incluye transporte local." },
+      { "id": 3, "titulo": "Servicio Incluido", "contenido": "Por la compra de los productos detallados en esta cotización se incluye 6 (seis) horas de soporte para capacitar al personal competente de la empresa en como configurar los siguientes productos: ENVR, AI-Key, UVC-G6-Bullet-W Cámara." },
+      { "id": 4, "titulo": "Soporte Adicional", "contenido": "En caso de que la empresa necesite soporte adicional se cobrará $25 USD por hora de soporte." },
+      { "id": 5, "titulo": "Garantía", "contenido": "1 año por defectos de fábrica." },
+      { "id": 6, "titulo": "Validez Proforma", "contenido": "3 días." },
+      { "id": 7, "titulo": "Condiciones de Pago", "contenido": "Anticipo 40% para solicitar la orden en fábrica y 60% para el despacho." }
+    ],
+    "ivaRate": 0.15,
+    "categoriaColores": {
+      "CONECTIVIDAD": "#6366f1",
+      "ALMACENAMIENTO": "#10b981",
+      "CÁMARAS": "#f59e0b",
+      "ANALÍTICA IA": "#8b5cf6",
+      "SERVICIOS": "#6b7280"
+    }
+  },
+  "ubicaciones": [
+    { "id": 1, "ubicacion": "Entrada Peatonal Garita 1", "icono": "🚪", "conexionSwitch": "Switch Garita 1", "estado": "REQUERIDO", "camarasAnalogicas": 4, "camarasIP": 4, "proposito": "Control de Acceso de Personal", "descripcion": "Registro visual de ingreso/salida del personal. Identificación de personal autorizado y detección de accesos indebidos. Trazabilidad completa.", "color": "orange" },
+    { "id": 2, "ubicacion": "Embarque", "icono": "🚚", "conexionSwitch": "Switch Embarque", "estado": "CON ADAP POE", "camarasAnalogicas": 2, "camarasIP": 2, "proposito": "Evidencia Documental de Despachos", "descripcion": "Respaldo visual requerido ante reclamos de clientes o transportistas. Verificación de condiciones de carga y protección legal de la empresa.", "color": "cyan" },
+    { "id": 3, "ubicacion": "Materia Prima", "icono": "📦", "conexionSwitch": "Switch Materia Prima", "estado": "CON ADAP POE", "camarasAnalogicas": 2, "camarasIP": 2, "proposito": "Verificación de Buenas Prácticas (BPM)", "descripcion": "Área esencial donde inicia la cadena de valor. Supervisión de manipulación correcta del producto desde el origen para garantizar calidad.", "color": "yellow" },
+    { "id": 4, "ubicacion": "Enlatado", "icono": "🥫", "conexionSwitch": "Switch Proceso", "estado": "CUBIERTO", "camarasAnalogicas": 2, "camarasIP": 4, "proposito": "Soporte de Calidad y Evidencias", "descripcion": "Evidencia esencial de manipulación del producto para certificaciones de calidad. Respaldo documental ante reclamos de clientes.", "color": "green" },
+    { "id": 5, "ubicacion": "Pouch", "icono": "🧴", "conexionSwitch": "Switch Proceso", "estado": "CUBIERTO", "camarasAnalogicas": 2, "camarasIP": 2, "proposito": "Control de Calidad en Empaque", "descripcion": "Documentación visual para garantizar integridad del producto. Verificación de procedimientos de sellado y cumplimiento de normativas.", "color": "teal" },
+    { "id": 6, "ubicacion": "Recorrido Ingreso Administración", "icono": "🏢", "conexionSwitch": "Switch Administración", "estado": "CUBIERTO", "camarasAnalogicas": 2, "camarasIP": 2, "proposito": "Seguridad de Área Administrativa", "descripcion": "Control de acceso a zona con información confidencial y documentación sensible. Registro de personal autorizado y visitantes.", "color": "purple" },
+    { "id": 7, "ubicacion": "Recorrido Ingreso MP", "icono": "🛤️", "conexionSwitch": "Switch Data Center", "estado": "CUBIERTO", "camarasAnalogicas": 4, "camarasIP": 4, "proposito": "Control de Acceso a Zona Crítica", "descripcion": "Vigilancia de corredor estratégico hacia área de materias primas. Solo personal autorizado. Prevención de contaminación cruzada.", "color": "red" },
+    { "id": 8, "ubicacion": "Desechos Peligrosos", "icono": "⚠️", "conexionSwitch": "-", "estado": "CON ADAP POE", "camarasAnalogicas": 1, "camarasIP": 1, "proposito": "Cumplimiento Normativo Ambiental", "descripcion": "Documentación de procedimientos de disposición para cumplimiento ambiental. Respaldo ante inspecciones regulatorias.", "color": "amber" },
+    { "id": 9, "ubicacion": "Ronda Norte (Vía Etiquetado)", "icono": "🔄", "conexionSwitch": "Switch Externo", "estado": "CUBIERTO", "camarasAnalogicas": 2, "camarasIP": 2, "proposito": "Vigilancia Perimetral", "descripcion": "Control de tránsito interno y prevención de intrusiones. Cobertura de puntos ciegos en zona de conexión entre áreas críticas.", "color": "slate" },
+    { "id": 10, "ubicacion": "Etiquetado", "icono": "🏷️", "conexionSwitch": "Switch Proceso", "estado": "CUBIERTO", "camarasAnalogicas": 2, "camarasIP": 2, "proposito": "Control de Calidad Final", "descripcion": "Verificación de etiquetado correcto antes del despacho. Evidencia de trazabilidad del lote y cumplimiento de normativas de rotulado.", "color": "lime" }
+  ],
+  "opciones": {
+    "escalable": {
+      "id": "escalable",
+      "nombre": "Sistema Escalable",
+      "inversion": 18256.25,
+      "equipos": [
+        { "id": 1, "item": "Cámaras IP 4K", "cantidad": 22, "capacidad": "Hasta 320" },
+        { "id": 2, "item": "NVR 24 Bahías", "cantidad": 1, "capacidad": "20 discos de 16TB" },
+        { "id": 3, "item": "Discos 16TB", "cantidad": 20, "capacidad": "320TB total" },
+        { "id": 4, "item": "Switch PoE 48 puertos", "cantidad": 2, "capacidad": "48 puertos c/u" }
+      ],
+      "especificaciones": {
+        "escalabilidadMaxima": 320,
+        "almacenamientoTotal": 320,
+        "diasGrabacion": 300,
+        "compatibilidad": "Alta"
+      }
+    },
+    "focalizada": {
+      "id": "focalizada",
+      "nombre": "Sistema Focalizado",
+      "inversion": 8200,
+      "equipos": [
+        { "id": 1, "item": "Cámaras IP 4K", "cantidad": 22, "capacidad": "Hasta 32" },
+        { "id": 2, "item": "NVR 8 Bahías", "cantidad": 1, "capacidad": "8 discos de 10TB" },
+        { "id": 3, "item": "Discos 10TB", "cantidad": 8, "capacidad": "80TB total" },
+        { "id": 4, "item": "Switch PoE 24 puertos", "cantidad": 1, "capacidad": "24 puertos" }
+      ],
+      "especificaciones": {
+        "escalabilidadMaxima": 32,
+        "almacenamientoTotal": 80,
+        "diasGrabacion": 80,
+        "compatibilidad": "Alta"
+      }
+    },
+    "premium": {
+      "id": "premium",
+      "nombre": "Sistema Premium con IA",
+      "inversion": 23300,
+      "recomendada": true,
+      "equipos": [
+        { "id": 1, "item": "Cámaras IP 4K con IA", "cantidad": 22, "capacidad": "Hasta 70" },
+        { "id": 2, "item": "NVR 16 Bahías con IA", "cantidad": 1, "capacidad": "16 discos de 24TB" },
+        { "id": 3, "item": "Discos 24TB Enterprise", "cantidad": 16, "capacidad": "384TB total" },
+        { "id": 4, "item": "Switch PoE 48 puertos", "cantidad": 2, "capacidad": "48 puertos c/u" },
+        { "id": 5, "item": "Licencia IA Incluida", "cantidad": 1, "capacidad": "Perpetua" }
+      ],
+      "especificaciones": {
+        "escalabilidadMaxima": 70,
+        "almacenamientoTotal": 384,
+        "diasGrabacion": 365,
+        "compatibilidad": "Mediante adaptadores",
+        "inteligenciaArtificial": true
+      },
+      "capacidadesIA": [
+        "Detección automática de objetos y personas",
+        "Reconocimiento facial y análisis de comportamiento",
+        "Alertas inteligentes en tiempo real",
+        "Búsqueda avanzada por eventos específicos",
+        "Análisis predictivo y reportes automatizados"
+      ]
+    }
+  },
+  "comparativa": [
+    { "id": 1, "caracteristica": "Costo de Inversión", "escalable": "$18,256.25", "focalizada": "$8,200", "premium": "$23,300" },
+    { "id": 2, "caracteristica": "Escalabilidad Máxima", "escalable": "320 cámaras", "focalizada": "32 cámaras", "premium": "70 cámaras" },
+    { "id": 3, "caracteristica": "Almacenamiento Total", "escalable": "320TB", "focalizada": "80TB", "premium": "384TB" },
+    { "id": 4, "caracteristica": "Días de Grabación", "escalable": "300 días", "focalizada": "80 días", "premium": "365+ días" },
+    { "id": 5, "caracteristica": "Inteligencia Artificial", "escalable": "No", "focalizada": "No", "premium": "Sí" },
+    { "id": 6, "caracteristica": "Compatibilidad Sistema Actual", "escalable": "Alta", "focalizada": "Alta", "premium": "Adaptadores" }
+  ],
+  "beneficios": [
+    { "id": 1, "beneficio": "Automatización del Monitoreo", "impacto": "Alto", "ahorro": 15000, "descripcion": "Detección inteligente reduce carga operativa" },
+    { "id": 2, "beneficio": "Reconocimiento Facial", "impacto": "Alto", "ahorro": 8000, "descripcion": "Identificación rápida y precisa de individuos" },
+    { "id": 3, "beneficio": "Alertas Proactivas", "impacto": "Crítico", "ahorro": 25000, "descripcion": "Reducción de dependencia de monitoreo humano" },
+    { "id": 4, "beneficio": "Análisis Predictivo", "impacto": "Alto", "ahorro": 12000, "descripcion": "Anticipar incidentes antes de que ocurran" },
+    { "id": 5, "beneficio": "Insights Estratégicos", "impacto": "Medio", "ahorro": 5000, "descripcion": "Datos analíticos para decisiones estratégicas" }
+  ],
+  "roi": [
+    { "id": 1, "concepto": "Reducción de costos operativos", "ahorroAnual": 18000, "descripcion": "Automatización reduce personal de monitoreo" },
+    { "id": 2, "concepto": "Optimización de eficiencia", "ahorroAnual": 12000, "descripcion": "Personal enfocado en tareas de mayor valor" },
+    { "id": 3, "concepto": "Prevención de pérdidas", "ahorroAnual": 35000, "descripcion": "Detección proactiva previene incidentes" },
+    { "id": 4, "concepto": "Cumplimiento normativo", "ahorroAnual": 8000, "descripcion": "Mayor capacidad de almacenamiento y análisis" }
+  ],
+  "controlAcceso": {
+    "items": [
+      { "id": 1, "categoria": "CONTROL DE ACCESO", "componente": "UA-G3-SK-Pro Kit Inicial", "descripcion": "Kit control de acceso completo entrada/salida para una puerta con dos lectores y soporte Touch Pass", "cantidad": 3, "precioUnitario": 600.00, "total": 1800.00, "icono": "🚪" },
+      { "id": 2, "categoria": "CONTROL DE ACCESO", "componente": "Punto de Red", "descripcion": "Punto de red categoría 6 para conectividad del sistema de control de acceso", "cantidad": 3, "precioUnitario": 150.00, "total": 450.00, "icono": "🌐" },
+      { "id": 3, "categoria": "CONTROL DE ACCESO", "componente": "Sistema Magnético de Puerta", "descripcion": "Cerradura electromagnética de alta seguridad para control de acceso", "cantidad": 3, "precioUnitario": 23.50, "total": 70.50, "icono": "🔒" },
+      { "id": 4, "categoria": "SERVICIOS", "componente": "Servicio de Transporte Local", "descripcion": "Transporte e instalación de equipos", "cantidad": 1, "precioUnitario": 6.00, "total": 6.00, "icono": "🚚" }
+    ],
+    "kitDesglose": [
+      { "id": 1, "componente": "UA-Hub (Door Hub)", "descripcion": "Hub de puerta para control de entrada/salida completo con conectividad PoE++", "cantidad": 1, "icono": "🎛️", "url": "https://store.ui.com/us/en/category/all-door-access/products/ua-hub" },
+      { "id": 2, "componente": "UA-G3-Pro (Reader Pro)", "descripcion": "Lector NFC con cámara HD, intercomunicador, pantalla táctil 4.7\", Face Unlock y Touch Pass", "cantidad": 1, "icono": "📹", "url": "https://store.ui.com/us/en/category/all-door-access/products/ua-g3-pro" },
+      { "id": 3, "componente": "UA-G3-B (G3 Reader)", "descripcion": "Lector compacto NFC con soporte Apple Touch Pass, Google Wallet y hand-wave unlock", "cantidad": 1, "icono": "📱", "url": "https://store.ui.com/us/en/category/all-door-access/products/ua-g3" },
+      { "id": 4, "componente": "UA-Pocket-Keyfob", "descripcion": "Llaveros de acceso NFC MIFARE DESFire para empleados", "cantidad": 2, "icono": "🔑", "url": "https://store.ui.com/us/en/category/all-door-access/products/ua-pocket" },
+      { "id": 5, "componente": "Touch Pass (10 gratis)", "descripcion": "Pases digitales para iPhone/Android con Apple Wallet y Google Wallet (incluidos 1 año)", "cantidad": 10, "icono": "📲", "url": "https://store.ui.com/us/en/category/all-door-access/products/touchpass-free" },
+      { "id": 6, "componente": "Power Supply 12V 2A", "descripcion": "Fuente de alimentación para lectores y hub con certificación de seguridad", "cantidad": 1, "icono": "🔌", "url": "" }
+    ],
+    "notas": [
+      { "id": 1, "titulo": "Disponibilidad", "contenido": "Productos en stock. Entrega inmediata." },
+      { "id": 2, "titulo": "Transporte", "contenido": "Incluye transporte local." },
+      { "id": 3, "titulo": "Servicio Incluido", "contenido": "Por la compra de los productos detallados en esta cotización se incluye 6 (seis) horas de soporte para capacitar al personal competente de la empresa en como configurar los siguientes productos: ENVR, AI-Key, UVC-G6-Bullet-W Cámara." },
+      { "id": 4, "titulo": "Soporte Adicional", "contenido": "En caso de que la empresa necesite soporte adicional se cobrará $25 USD por hora de soporte." },
+      { "id": 5, "titulo": "Garantía", "contenido": "1 año por defectos de fábrica." },
+      { "id": 6, "titulo": "Validez Proforma", "contenido": "3 días." },
+      { "id": 7, "titulo": "Condiciones de Pago", "contenido": "Anticipo 40% para solicitar la orden en fábrica y 60% para el despacho." }
+    ],
+    "ivaRate": 0.15,
+    "categoriaColores": {
+      "CONTROL DE ACCESO": "#0ea5e9",
+      "SERVICIOS": "#6b7280"
+    }
+  }
+}

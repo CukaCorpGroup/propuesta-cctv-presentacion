@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuesta de Mejora para el Sistema de CCTV</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Color de fondo claro y suave */
+            color: #1f2937;
+        }
+        .container {
+            min-height: 100vh;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+            max-width: 900px;
+            border: 1px solid #e2e8f0;
+        }
+        .tab-button {
+            background-color: transparent;
+            color: #6b7280;
+            padding: 1rem 2rem;
+            font-weight: 500;
+            border-radius: 9999px;
+            transition: all 0.3s ease-in-out;
+            border: 2px solid transparent;
+        }
+        .tab-button.active {
+            color: #ffffff;
+            border-color: #3b82f6;
+            background-color: #3b82f6;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+        .tab-button:hover:not(.active) {
+            color: #4b5563;
+            background-color: #e5e7eb;
+        }
+        .slide-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+        .slide-content.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .diagram-svg {
+            width: 100%;
+            height: 350px;
+            max-width: 600px;
+        }
+        /* Colores para el diagrama de Situación Actual */
+        .svg-bg-light { fill: #f8fafc; }
+        .svg-dvr-body { fill: #374151; }
+        .svg-dvr-text { fill: #ffffff; }
+        .svg-cam-body { fill: #4b5563; }
+        .svg-cam-lens { fill: #3b82f6; }
+        .svg-cable-analog { stroke: #ef4444; }
+
+        /* Colores para el diagrama de Propuesta Sugerida */
+        .svg-bg-propuesta { fill: #f8fafc; }
+        .svg-equipment-body-propuesta { 
+            fill: #f8fafc !important; /* Gris claro para los equipos */
+            stroke: #e2e8f0 !important;
+            stroke-width: 2px !important;
+        }
+        .svg-equipment-text-propuesta { 
+            fill: #1f2937; /* Texto oscuro para contraste */
+        }
+        .svg-cam-ip-lens-propuesta { fill: #dc2626; } /* Rojo para las lentes */
+        .svg-cable-ip-propuesta { stroke: #3b82f6; } /* Cable azul para contraste */
+        .svg-text-title-propuesta, .svg-text-label-propuesta { fill: #1f2937; }
+        .svg-equipment-text-white { fill: #ffffff; }
+
+        .inner-tab-button {
+            background-color: transparent;
+            color: #6b7280;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 9999px;
+            transition: all 0.3s ease-in-out;
+            border: 2px solid transparent;
+        }
+        .inner-tab-button.active {
+            color: #ffffff;
+            border-color: #10b981;
+            background-color: #10b981;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+        .inner-tab-button:hover:not(.active) {
+            color: #4b5563;
+            background-color: #e5e7eb;
+        }
+
+        .table-custom th, .table-custom td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .table-custom th {
+            background-color: #f8fafc;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="p-6">
+
+    <div class="container flex items-center justify-center p-4 sm:p-8">
+        <div class="card w-full text-center">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-6 sm:mb-8 tracking-wide">Propuesta de Mejora para el Sistema de CCTV</h1>
+
+            <!-- Tabs -->
+            <div class="flex justify-center space-x-4 sm:space-x-6 mb-8">
+                <button id="tab-actual" class="tab-button active">Situación Actual</button>
+                <button id="tab-propuesta" class="tab-button">Propuesta Sugerida</button>
+                <button id="tab-analisis" class="tab-button">Análisis de Inversión</button>
+            </div>
+
+            <!-- Content for Situación Actual -->
+            <div id="content-actual" class="slide-content active">
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">Sistema de Video Analógico</h2>
+                <div class="flex justify-center my-6">
+                    <svg class="diagram-svg" viewBox="0 0 600 350" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <filter id="shadow">
+                                <feDropShadow dx="2" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.2"/>
+                            </filter>
+                        </defs>
+                        <rect x="0" y="0" width="600" height="350" class="svg-bg-light" />
+
+                        <!-- Main DVRs -->
+                        <g transform="translate(150, 50)">
+                            <!-- Row 1 -->
+                            <rect x="0" y="0" width="80" height="40" class="svg-dvr-body" rx="4" ry="4" filter="url(#shadow)"/>
+                            <text x="40" y="25" text-anchor="middle" font-weight="bold" font-size="12" class="svg-dvr-text">DVR #1</text>
+                            
+                            <rect x="100" y="0" width="80" height="40" class="svg-dvr-body" rx="4" ry="4" filter="url(#shadow)"/>
+                            <text x="140" y="25" text-anchor="middle" font-weight="bold" font-size="12" class="svg-dvr-text">DVR #2</text>
+                            
+                            <rect x="200" y="0" width="80" height="40" class="svg-dvr-body" rx="4" ry="4" filter="url(#shadow)"/>
+                            <text x="240" y="25" text-anchor="middle" font-weight="bold" font-size="12" class="svg-dvr-text">DVR #3</text>
+                            
+                            <!-- Row 2 -->
+                            <rect x="0" y="60" width="80" height="40" class="svg-dvr-body" rx="4" ry="4" filter="url(#shadow)"/>
+                            <text x="40" y="85" text-anchor="middle" font-weight="bold" font-size="12" class="svg-dvr-text">DVR #4</text>
+                            
+                            <rect x="100" y="60" width="80" height="40" class="svg-dvr-body" rx="4" ry="4" filter="url(#shadow)"/>
+                            <text x="140" y="85" text-anchor="middle" font-weight="bold" font-size="12" class="svg-dvr-text">DVR #5</text>
+                            
+                            <rect x="200" y="60" width="80" height="40" class="svg-dvr-body" rx="4" ry="4" filter="url(#shadow)"/>
+                            <text x="240" y="85" text-anchor="middle" font-weight="bold" font-size="12" class="svg-dvr-text">DVR #6</text>
+                            
+                            <!-- Row 3 -->
+                            <rect x="0" y="120" width="80" height="40" class="svg-dvr-body" rx="4" ry="4" filter="url(#shadow)"/>
+                            <text x="40" y="145" text-anchor="middle" font-weight="bold" font-size="12" class="svg-dvr-text">DVR #7</text>
+                            
+                            <rect x="100" y="120" width="80" height="40" class="svg-dvr-body" rx="4" ry="4" filter="url(#shadow)"/>
+                            <text x="140" y="145" text-anchor="middle" font-weight="bold" font-size="12" class="svg-dvr-text">DVR #8</text>
+                            
+                            <rect x="200" y="120" width="80" height="40" class="svg-dvr-body" rx="4" ry="4" filter="url(#shadow)"/>
+                            <text x="240" y="145" text-anchor="middle" font-weight="bold" font-size="12" class="svg-dvr-text">DVR #9</text>
+                            
+                             <!-- Row 4 -->
+                            <rect x="50" y="180" width="80" height="40" class="svg-dvr-body" rx="4" ry="4" filter="url(#shadow)"/>
+                            <text x="90" y="205" text-anchor="middle" font-weight="bold" font-size="12" class="svg-dvr-text">DVR #10</text>
+                            
+                            <rect x="150" y="180" width="80" height="40" class="svg-dvr-body" rx="4" ry="4" filter="url(#shadow)"/>
+                            <text x="190" y="205" text-anchor="middle" font-weight="bold" font-size="12" class="svg-dvr-text">DVR #11</text>
+                        </g>
+
+                        <!-- Label indicating cameras are connected -->
+                        <text x="300" y="295" text-anchor="middle" font-size="16" font-weight="bold" fill="#4b5563">130 cámaras analógicas distribuidas, cada grupo conectado a un DVR</text>
+
+                    </svg>
+                </div>
+                <div class="text-left text-base sm:text-lg text-gray-700 space-y-4">
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong class="text-gray-900">Infraestructura Existente:</strong> 130 cámaras analógicas y 11 DVRs.</li>
+                        <li><strong class="text-gray-900">Tiempo de grabación:</strong> Aproximado de 15 días.</li>
+                        <li><strong class="text-gray-900">Limitación Crítica:</strong> La baja resolución de 1080p (2 MP) impide el **zoom detallado**. Las imágenes se pixelan, lo que inutiliza la revisión de calidad.</li>
+                        <li><strong class="text-gray-900">Ineficiencia Operacional:</strong> La gestión descentralizada de 11 DVRs es compleja, lenta y costosa.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Content for Propuesta Sugerida -->
+            <div id="content-propuesta" class="slide-content hidden">
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">Propuesta de Modernización IP</h2>
+
+                <!-- Inner Tabs for the two options -->
+                <div class="flex justify-center space-x-2 sm:space-x-4 mb-8">
+                    <button id="tab-opcion1" class="inner-tab-button active">Opción 1: Escalable</button>
+                    <button id="tab-opcion2" class="inner-tab-button">Opción 2: Focalizada</button>
+                </div>
+
+                <!-- Content for Option 1 -->
+                <div id="content-opcion1" class="inner-slide-content active">
+                    <div class="flex justify-center my-6">
+                        <svg class="diagram-svg" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <filter id="shadow">
+                                    <feDropShadow dx="2" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.2"/>
+                                </filter>
+                            </defs>
+                            <!-- Fondo claro para el diagrama de propuesta -->
+                            <rect x="0" y="0" width="600" height="400" class="svg-bg-propuesta" />
+                            
+                            <!-- NVR Box at the top -->
+                            <rect x="200" y="30" width="200" height="80" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" rx="8" ry="8" filter="url(#shadow)"/>
+                            <text x="300" y="55" text-anchor="middle" font-weight="bold" font-size="20" class="svg-equipment-text-propuesta">NVR Escalable</text>
+                            <text x="300" y="75" text-anchor="middle" font-size="14" class="svg-equipment-text-propuesta">Hasta 320 cámaras</text>
+                            <text x="300" y="95" text-anchor="middle" font-size="12" class="svg-equipment-text-propuesta">24 discos x 16TB</text>
+                            
+                            <!-- Network Switches -->
+                            <rect x="150" y="130" width="80" height="40" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" rx="5" ry="5" filter="url(#shadow)"/>
+                            <text x="190" y="150" text-anchor="middle" font-size="12" font-weight="bold" class="svg-equipment-text-propuesta">Switch PoE</text>
+                            <text x="190" y="165" text-anchor="middle" font-size="10" class="svg-equipment-text-propuesta">48 puertos</text>
+                            
+                            <rect x="370" y="130" width="80" height="40" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" rx="5" ry="5" filter="url(#shadow)"/>
+                            <text x="410" y="150" text-anchor="middle" font-size="12" font-weight="bold" class="svg-equipment-text-propuesta">Switch PoE</text>
+                            <text x="410" y="165" text-anchor="middle" font-size="10" class="svg-equipment-text-propuesta">48 puertos</text>
+                            
+                            <!-- Cables principales -->
+                            <line x1="300" y1="110" x2="190" y2="130" class="svg-cable-ip-propuesta" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="300" y1="110" x2="410" y2="130" class="svg-cable-ip-propuesta" stroke-width="3" stroke-linecap="round"/>
+                            
+                            <!-- Cámaras - Fila superior (8 cámaras) -->
+                            <g transform="translate(60, 220)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            <g transform="translate(120, 220)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            <g transform="translate(180, 220)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            <g transform="translate(240, 220)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            <g transform="translate(300, 220)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            <g transform="translate(360, 220)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            <g transform="translate(420, 220)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            <g transform="translate(480, 220)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            <g transform="translate(540, 220)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            
+                            <!-- Cámaras - Fila inferior (8 cámaras) -->
+                            <g transform="translate(90, 280)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            <g transform="translate(150, 280)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            <g transform="translate(210, 280)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            <g transform="translate(270, 280)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            <g transform="translate(330, 280)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            <g transform="translate(390, 280)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            <g transform="translate(450, 280)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            <g transform="translate(510, 280)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            
+                            <!-- Cables de conexión -->
+                            <line x1="190" y1="170" x2="60" y2="220" class="svg-cable-ip-propuesta" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="190" y1="170" x2="120" y2="220" class="svg-cable-ip-propuesta" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="190" y1="170" x2="180" y2="220" class="svg-cable-ip-propuesta" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="190" y1="170" x2="240" y2="220" class="svg-cable-ip-propuesta" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="190" y1="170" x2="300" y2="220" class="svg-cable-ip-propuesta" stroke-width="2" stroke-linecap="round"/>
+                            
+                            <line x1="410" y1="170" x2="360" y2="220" class="svg-cable-ip-propuesta" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="410" y1="170" x2="420" y2="220" class="svg-cable-ip-propuesta" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="410" y1="170" x2="480" y2="220" class="svg-cable-ip-propuesta" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="410" y1="170" x2="540" y2="220" class="svg-cable-ip-propuesta" stroke-width="2" stroke-linecap="round"/>
+
+                            <text x="300" y="330" text-anchor="middle" font-size="18" font-weight="bold" class="svg-text-title-propuesta">Sistema IP Escalable</text>
+                            <text x="300" y="350" text-anchor="middle" font-size="14" class="svg-text-label-propuesta">Hasta 320 cámaras • 300 días de grabación</text>
+                            <text x="300" y="370" text-anchor="middle" font-size="12" class="svg-text-label-propuesta">(Cable de Red Ethernet)</text>
+                        </svg>
+                    </div>
+                    <div class="text-left text-base sm:text-lg text-gray-700 space-y-4">
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong class="text-gray-900">Escalabilidad Máxima:</strong> La solución está diseñada para un crecimiento de hasta **320 cámaras**.</li>
+                            <li><strong class="text-gray-900">Almacenamiento:</strong> Un NVR con capacidad para 24 discos duros y 20 discos de 16TB, lo que permite un tiempo de grabación aproximado de **300 días (con 22 cámaras de 8MP)**.</li>
+                            <li><strong class="text-gray-900">Compatibilidad con el monitoreo actual:</strong> El nuevo sistema IP puede integrarse con las plataformas de monitoreo existentes para una transición suave.</li>
+                            <li><strong class="text-gray-900">Costo Total:</strong> <strong class="text-gray-900 text-xl">$18.256,25</strong></li>
+                        </ul>
+                         <p class="font-semibold text-red-600 mt-4">Nota: Los costos de mano de obra y materiales para la instalación de la red no están incluidos en este presupuesto.</p>
+                    </div>
+                </div>
+
+                <!-- Content for Option 2 -->
+                <div id="content-opcion2" class="inner-slide-content hidden">
+                    <div class="flex justify-center my-6">
+                        <svg class="diagram-svg" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+                             <defs>
+                                <filter id="shadow2">
+                                    <feDropShadow dx="2" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.2"/>
+                                </filter>
+                            </defs>
+                            <!-- Fondo claro para el diagrama de propuesta -->
+                            <rect x="0" y="0" width="600" height="400" class="svg-bg-propuesta" />
+                            
+                            <!-- NVR Box at the top -->
+                            <rect x="200" y="30" width="200" height="80" class="svg-equipment-body-propuesta" rx="8" ry="8" filter="url(#shadow2)"/>
+                            <text x="300" y="55" text-anchor="middle" font-weight="bold" font-size="20" class="svg-equipment-text-propuesta">NVR Compacto</text>
+                            <text x="300" y="75" text-anchor="middle" font-size="14" class="svg-equipment-text-propuesta">Hasta 32 cámaras</text>
+                            <text x="300" y="95" text-anchor="middle" font-size="12" class="svg-equipment-text-propuesta">8 discos x 10TB</text>
+                            
+                            <!-- Network Switch -->
+                            <rect x="270" y="130" width="60" height="40" class="svg-equipment-body-propuesta" rx="5" ry="5" filter="url(#shadow2)"/>
+                            <text x="300" y="150" text-anchor="middle" font-size="12" font-weight="bold" class="svg-equipment-text-propuesta">Switch PoE</text>
+                            <text x="300" y="165" text-anchor="middle" font-size="10" class="svg-equipment-text-propuesta">24 puertos</text>
+                            
+                            <!-- Cable principal -->
+                            <line x1="300" y1="110" x2="300" y2="130" class="svg-cable-ip-propuesta" stroke-width="3" stroke-linecap="round"/>
+                            
+                            <!-- Cámaras - Fila superior (6 cámaras distribuidas) -->
+                            <g transform="translate(100, 230)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow2)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow2)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            <g transform="translate(180, 230)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow2)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow2)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            <g transform="translate(260, 230)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow2)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow2)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            <g transform="translate(340, 230)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow2)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow2)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            <g transform="translate(420, 230)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow2)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow2)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            <g transform="translate(500, 230)">
+                                <rect x="-25" y="-12" width="50" height="24" class="svg-equipment-body-propuesta" rx="4" ry="4" filter="url(#shadow2)"/>
+                                <circle cx="12" cy="0" r="8" class="svg-cam-ip-lens-propuesta" filter="url(#shadow2)"/>
+                                <text x="0" y="25" text-anchor="middle" font-size="11" font-weight="600" class="svg-equipment-text-propuesta">IP 4K</text>
+                            </g>
+                            
+                            <!-- Cables de conexión -->
+                            <line x1="300" y1="170" x2="100" y2="230" class="svg-cable-ip-propuesta" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="300" y1="170" x2="180" y2="230" class="svg-cable-ip-propuesta" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="300" y1="170" x2="260" y2="230" class="svg-cable-ip-propuesta" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="300" y1="170" x2="340" y2="230" class="svg-cable-ip-propuesta" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="300" y1="170" x2="420" y2="230" class="svg-cable-ip-propuesta" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="300" y1="170" x2="500" y2="230" class="svg-cable-ip-propuesta" stroke-width="2" stroke-linecap="round"/>
+                            
+                            <!-- Indicador de enfoque focalizado -->
+                            <text x="300" y="330" text-anchor="middle" font-size="18" font-weight="bold" class="svg-text-title-propuesta">Sistema IP Focalizado</text>
+                            <text x="300" y="350" text-anchor="middle" font-size="14" class="svg-text-label-propuesta">Hasta 32 cámaras • 80 días de grabación</text>
+                            <text x="300" y="370" text-anchor="middle" font-size="12" class="svg-text-label-propuesta">(Cable de Red Ethernet)</text>
+                        </svg>
+                    </div>
+                    <div class="text-left text-base sm:text-lg text-gray-700 space-y-4">
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong class="text-gray-900">Escalabilidad Máxima:</strong> La solución está diseñada para un crecimiento de hasta **32 cámaras**.</li>
+                            <li><strong class="text-gray-900">Almacenamiento:</strong> Un NVR con capacidad para 8 discos duros y 8 discos de 10TB, lo que permite un tiempo de grabación de hasta **80 días (con 22 cámaras de 8MP)**.</li>
+                            <li><strong class="text-gray-900">Compatibilidad con el monitoreo actual:</strong> El nuevo sistema IP puede integrarse con las plataformas de monitoreo existentes para una transición suave.</li>
+                            <li><strong class="text-gray-900">Costo Total:</strong> <strong class="text-gray-900 text-xl">$9.372,50</strong></li>
+                        </ul>
+                         <p class="font-semibold text-red-600 mt-4">Nota: Los costos de mano de obra y materiales para la instalación de la red no están incluidos en este presupuesto.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Content for Análisis de Inversión -->
+            <div id="content-analisis" class="slide-content hidden">
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">Análisis de Inversión y Recomendación</h2>
+                <p class="text-lg text-gray-700 mb-6">
+                    La modernización del sistema de CCTV no es solo un gasto, sino una inversión estratégica. Una mayor resolución y un tiempo de grabación extendido mitigan riesgos críticos, mejoran la seguridad y optimizan la gestión de incidentes. A continuación, se comparan ambas opciones desde una perspectiva de negocio.
+                </p>
+                <div class="overflow-x-auto rounded-lg shadow-md mb-6">
+                    <table class="w-full table-custom">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="py-4 px-6 text-left">Característica</th>
+                                <th class="py-4 px-6 text-left">Opción 1: Escalable</th>
+                                <th class="py-4 px-6 text-left">Opción 2: Focalizada</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="py-4 px-6 text-gray-900 font-medium">Costo de Inversión</td>
+                                <td class="py-4 px-6 text-gray-700 font-bold">$18.256,25</td>
+                                <td class="py-4 px-6 text-gray-700">$9.372,50</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 text-gray-900 font-medium">Escalabilidad Máxima</td>
+                                <td class="py-4 px-6 text-gray-700">Hasta 320 cámaras</td>
+                                <td class="py-4 px-6 text-gray-700">Hasta 32 cámaras</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 text-gray-900 font-medium">Tiempo de Grabación (para 22 cámaras)</td>
+                                <td class="py-4 px-6 text-gray-700">300 días</td>
+                                <td class="py-4 px-6 text-gray-700">80 días</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 text-gray-900 font-medium">Principal Beneficio</td>
+                                <td class="py-4 px-6 text-gray-700">
+                                    <ul class="list-disc list-inside">
+                                        <li>ROI a largo plazo</li>
+                                        <li>Máxima resiliencia y escalabilidad</li>
+                                        <li>Protección de la inversión futura</li>
+                                    </ul>
+                                </td>
+                                <td class="py-4 px-6 text-gray-700">
+                                    <ul class="list-disc list-inside">
+                                        <li>Costo inicial reducido</li>
+                                        <li>Respuesta rápida a la necesidad actual</li>
+                                        <li>Menor alcance para crecimiento</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-left bg-blue-50 border border-blue-200 p-6 rounded-lg">
+                    <h3 class="text-xl font-bold text-blue-800 mb-2">Recomendación Gerencial</h3>
+                    <p class="text-lg text-blue-700">
+                        Se recomienda proceder con la **Opción 1: Escalable**. Si bien representa una inversión inicial más alta, su **ROI a largo plazo es sustancialmente superior**. Esta opción no solo resuelve los problemas de baja calidad y almacenamiento actuales, sino que también establece una infraestructura robusta y escalable, preparada para el crecimiento futuro de la empresa y los avances tecnológicos. La inversión en capacidad de 320 cámaras y 300 días de grabación mitiga el riesgo de obsolescencia y asegura la protección de nuestros activos y personal por muchos años.
+                    </p>
+                    <p class="text-xs text-blue-600 mt-4">
+                        *Nota: Los tiempos de grabación mostrados están calculados para el sistema actual de 22 cámaras. El tiempo de grabación se reducirá proporcionalmente a medida que se añadan más cámaras al sistema, dada la capacidad de almacenamiento instalada.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabActualButton = document.getElementById('tab-actual');
+            const tabPropuestaButton = document.getElementById('tab-propuesta');
+            const tabAnalisisButton = document.getElementById('tab-analisis');
+            const contentActual = document.getElementById('content-actual');
+            const contentPropuesta = document.getElementById('content-propuesta');
+            const contentAnalisis = document.getElementById('content-analisis');
+
+            const tabOpcion1Button = document.getElementById('tab-opcion1');
+            const tabOpcion2Button = document.getElementById('tab-opcion2');
+            const contentOpcion1 = document.getElementById('content-opcion1');
+            const contentOpcion2 = document.getElementById('content-opcion2');
+
+            function showOuterTab(tabToShow) {
+                tabActualButton.classList.remove('active');
+                tabPropuestaButton.classList.remove('active');
+                tabAnalisisButton.classList.remove('active');
+                contentActual.classList.remove('active');
+                contentPropuesta.classList.remove('active');
+                contentAnalisis.classList.remove('active');
+                contentActual.classList.add('hidden');
+                contentPropuesta.classList.add('hidden');
+                contentAnalisis.classList.add('hidden');
+
+                if (tabToShow === 'actual') {
+                    tabActualButton.classList.add('active');
+                    contentActual.classList.remove('hidden');
+                    contentActual.classList.add('active');
+                } else if (tabToShow === 'propuesta') {
+                    tabPropuestaButton.classList.add('active');
+                    contentPropuesta.classList.remove('hidden');
+                    contentPropuesta.classList.add('active');
+                    // Show the first inner tab by default
+                    showInnerTab('opcion1');
+                } else if (tabToShow === 'analisis') {
+                    tabAnalisisButton.classList.add('active');
+                    contentAnalisis.classList.remove('hidden');
+                    contentAnalisis.classList.add('active');
+                }
+            }
+            
+            function showInnerTab(tabToShow) {
+                tabOpcion1Button.classList.remove('active');
+                tabOpcion2Button.classList.remove('active');
+                contentOpcion1.classList.remove('active');
+                contentOpcion2.classList.remove('active');
+                contentOpcion1.classList.add('hidden');
+                contentOpcion2.classList.add('hidden');
+                
+                if (tabToShow === 'opcion1') {
+                    tabOpcion1Button.classList.add('active');
+                    contentOpcion1.classList.remove('hidden');
+                    contentOpcion1.classList.add('active');
+                } else if (tabToShow === 'opcion2') {
+                    tabOpcion2Button.classList.add('active');
+                    contentOpcion2.classList.remove('hidden');
+                    contentOpcion2.classList.add('active');
+                }
+            }
+
+
+            tabActualButton.addEventListener('click', () => {
+                showOuterTab('actual');
+            });
+
+            tabPropuestaButton.addEventListener('click', () => {
+                showOuterTab('propuesta');
+            });
+            
+            tabAnalisisButton.addEventListener('click', () => {
+                showOuterTab('analisis');
+            });
+
+            tabOpcion1Button.addEventListener('click', () => {
+                showInnerTab('opcion1');
+            });
+
+            tabOpcion2Button.addEventListener('click', () => {
+                showInnerTab('opcion2');
+            });
+
+            showOuterTab('actual');
+        });
+    </script>
+</body>
+</html>

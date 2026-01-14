@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuesta de Modernización Sistema CCTV - Documento Formal</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            color: #1f2937;
+            line-height: 1.8;
+            font-size: 11pt;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 50px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #1e40af;
+        }
+        
+        .header h1 {
+            font-size: 24pt;
+            font-weight: 800;
+            color: #1e40af;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+        
+        .header h2 {
+            font-size: 18pt;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 15px;
+        }
+        
+        .header .subtitle {
+            font-size: 12pt;
+            color: #6b7280;
+            font-style: italic;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 16pt;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3b82f6;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .subsection-title {
+            font-size: 14pt;
+            font-weight: 600;
+            color: #374151;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .paragraph {
+            text-align: justify;
+            margin-bottom: 15px;
+            text-indent: 20px;
+        }
+        
+        .paragraph-first {
+            text-indent: 0;
+        }
+        
+        .info-box {
+            background: #f8fafc;
+            border-left: 4px solid #3b82f6;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .info-box h3 {
+            color: #1e40af;
+            margin-bottom: 12px;
+            font-size: 12pt;
+            font-weight: 600;
+        }
+        
+        .highlight-box {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 6px;
+        }
+        
+        .highlight-box h3 {
+            color: #92400e;
+            margin-bottom: 15px;
+            font-size: 13pt;
+            font-weight: 700;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 10pt;
+        }
+        
+        .comparison-table th {
+            background: #1e40af;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid #1e3a8a;
+        }
+        
+        .comparison-table td {
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            vertical-align: top;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f9fafb;
+        }
+        
+        .cost-highlight {
+            font-weight: 700;
+            color: #dc2626;
+            font-size: 12pt;
+        }
+        
+        .recommendation-box {
+            background: #fef3c7;
+            border: 3px solid #f59e0b;
+            padding: 30px;
+            margin: 40px 0;
+            border-radius: 8px;
+        }
+        
+        .recommendation-box h2 {
+            font-size: 16pt;
+            color: #92400e;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        ul li, ol li {
+            margin-bottom: 8px;
+            line-height: 1.8;
+        }
+        
+        .feature-list {
+            margin: 20px 0;
+        }
+        
+        .feature-item {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .feature-item:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #3b82f6;
+            font-weight: bold;
+            font-size: 18pt;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #6b7280;
+            font-size: 9pt;
+            margin-top: 50px;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .signature-section {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px solid #e5e7eb;
+        }
+        
+        .signature-line {
+            margin-top: 50px;
+        }
+        
+        .signature-line p {
+            margin-bottom: 5px;
+        }
+        
+        .date {
+            text-align: right;
+            margin-bottom: 30px;
+            color: #6b7280;
+            font-size: 10pt;
+        }
+        
+        strong {
+            color: #1f2937;
+            font-weight: 600;
+        }
+        
+        .page-number {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 9pt;
+            color: #9ca3af;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>PROPUESTA DE MODERNIZACIÓN</h1>
+            <h2>Sistema de Circuito Cerrado de Televisión (CCTV)</h2>
+            <p class="subtitle">Análisis Técnico y Recomendación Estratégica</p>
+            <div class="date">
+                <p>Fecha: <span id="current-date"></span></p>
+            </div>
+        </div>
+
+        <!-- Introducción -->
+        <div class="section">
+            <h2 class="section-title">1. Introducción</h2>
+            <p class="paragraph paragraph-first">
+                El presente documento tiene como objetivo presentar un análisis exhaustivo de la situación actual del sistema de CCTV de la organización y proponer alternativas de modernización que permitan mejorar la eficiencia operativa, la calidad de las grabaciones y las capacidades de análisis de seguridad.
+            </p>
+            <p class="paragraph">
+                La modernización del sistema de CCTV constituye una inversión estratégica que trasciende el concepto de gasto operativo. El incremento en resolución, la extensión del tiempo de grabación y la incorporación de tecnologías de inteligencia artificial mitigan riesgos críticos, mejoran la seguridad integral y optimizan la gestión de incidentes.
+            </p>
+        </div>
+
+        <!-- Situación Actual -->
+        <div class="section page-break">
+            <h2 class="section-title">2. Situación Actual del Sistema</h2>
+            
+            <div class="info-box">
+                <h3>2.1. Infraestructura Existente</h3>
+                <p class="paragraph paragraph-first">
+                    El sistema actual está compuesto por <strong>117 cámaras analógicas</strong> distribuidas en <strong>11 DVRs (Digital Video Recorders)</strong>. Esta configuración representa una inversión inicial aproximada de <strong>$9.115</strong>, desglosada de la siguiente manera:
+                </p>
+                <ul>
+                    <li><strong>Costo de Cámaras:</strong> Aproximado de $45 por cámara (117 cámaras × $45 = <strong>$5.265</strong>)</li>
+                    <li><strong>Costo de DVRs:</strong> Aproximado de $350 por DVR (11 DVRs × $350 = <strong>$3.850</strong>)</li>
+                </ul>
+            </div>
+            
+            <div class="info-box">
+                <h3>2.2. Capacidades Técnicas Actuales</h3>
+                <ul>
+                    <li><strong>Tiempo de grabación:</strong> Aproximado de 15 días</li>
+                    <li><strong>Resolución:</strong> 1080p (2 MP)</li>
+                    <li><strong>Arquitectura:</strong> Sistema analógico con gestión descentralizada</li>
+                </ul>
+            </div>
+            
+            <div class="highlight-box">
+                <h3>2.3. Limitaciones Críticas Identificadas</h3>
+                <p class="paragraph paragraph-first">
+                    <strong>Limitación de Resolución:</strong> La resolución de 1080p (2 MP) limita significativamente el zoom detallado. Las imágenes se pixelan al ampliar, lo que dificulta la identificación precisa en revisiones de calidad y análisis forense de incidentes.
+                </p>
+                <p class="paragraph">
+                    <strong>Ineficiencia Operacional:</strong> La gestión descentralizada de 11 DVRs incrementa la complejidad operativa, reduce la eficiencia del personal de seguridad y aumenta los costos de mantenimiento. Esta arquitectura fragmentada dificulta la búsqueda de eventos específicos y requiere múltiples puntos de acceso para la revisión de grabaciones.
+                </p>
+            </div>
+        </div>
+
+        <!-- Propuestas -->
+        <div class="section page-break">
+            <h2 class="section-title">3. Propuestas de Modernización</h2>
+            
+            <p class="paragraph paragraph-first">
+                Se presentan tres alternativas de modernización que contemplan la migración a tecnología IP, cada una diseñada para satisfacer diferentes necesidades estratégicas y presupuestarias de la organización.
+            </p>
+
+            <h3 class="subsection-title">3.1. Opción 1: Solución Focalizada</h3>
+            
+            <div class="info-box">
+                <h3>Descripción General</h3>
+                <p class="paragraph paragraph-first">
+                    Esta solución está diseñada para implementaciones focalizadas en áreas específicas, proporcionando una respuesta rápida a las necesidades actuales con una inversión inicial reducida.
+                </p>
+            </div>
+            
+            <div class="feature-list">
+                <div class="feature-item">
+                    <strong>Escalabilidad:</strong> Solución ideal para implementaciones focalizadas en áreas específicas, con capacidad limitada para crecimiento futuro.
+                </div>
+                <div class="feature-item">
+                    <strong>Almacenamiento:</strong> NVR con 8 bahías de discos, configurado con 8 discos de 10TB cada uno, proporcionando hasta <strong>80 días de grabación</strong> (con 22 cámaras de 8MP).
+                </div>
+                <div class="feature-item">
+                    <strong>Compatibilidad:</strong> Integración directa con las plataformas de monitoreo existentes, facilitando una transición gradual sin interrupciones operativas.
+                </div>
+                <div class="feature-item">
+                    <strong>Infraestructura de Red:</strong> Switch PoE (Power over Ethernet) de 24 puertos para alimentación y conectividad de las cámaras IP.
+                </div>
+            </div>
+            
+            <p class="paragraph" style="text-align: center; margin-top: 20px;">
+                <span class="cost-highlight">Costo aproximado: $8.200</span>
+            </p>
+
+            <h3 class="subsection-title" style="margin-top: 40px;">3.2. Opción 2: Solución Escalable</h3>
+            
+            <div class="info-box">
+                <h3>Descripción General</h3>
+                <p class="paragraph paragraph-first">
+                    Esta solución está diseñada para permitir crecimiento futuro sin limitaciones significativas, proporcionando máxima resiliencia y protección de la inversión a largo plazo.
+                </p>
+            </div>
+            
+            <div class="feature-list">
+                <div class="feature-item">
+                    <strong>Escalabilidad:</strong> Solución diseñada para permitir crecimiento futuro sin limitaciones significativas, con capacidad para expandir el sistema según las necesidades de la organización.
+                </div>
+                <div class="feature-item">
+                    <strong>Almacenamiento:</strong> NVR con capacidad para 24 bahías de discos, configurado con 20 discos de 16TB cada uno, proporcionando aproximadamente <strong>300 días de grabación</strong> (con 22 cámaras de 8MP).
+                </div>
+                <div class="feature-item">
+                    <strong>Compatibilidad:</strong> Integración directa con las plataformas de monitoreo existentes, facilitando una transición gradual sin interrupciones operativas.
+                </div>
+                <div class="feature-item">
+                    <strong>Infraestructura de Red:</strong> Dos switches PoE de 48 puertos cada uno, proporcionando capacidad para hasta 96 cámaras IP con alimentación integrada.
+                </div>
+            </div>
+            
+            <p class="paragraph" style="text-align: center; margin-top: 20px;">
+                <span class="cost-highlight">Costo aproximado: $18.256,25</span>
+            </p>
+
+            <h3 class="subsection-title" style="margin-top: 40px;">3.3. Opción 3: Solución Premium con Inteligencia Artificial</h3>
+            
+            <div class="info-box">
+                <h3>Descripción General</h3>
+                <p class="paragraph paragraph-first">
+                    Esta solución representa una inversión estratégica que posiciona a la empresa a la vanguardia tecnológica en sistemas de seguridad. La capacidad de Inteligencia Artificial integrada transforma el sistema de CCTV de un simple dispositivo de grabación a una plataforma inteligente de análisis y seguridad proactiva.
+                </p>
+            </div>
+            
+            <div class="feature-list">
+                <div class="feature-item">
+                    <strong>Escalabilidad:</strong> Solución optimizada para entornos empresariales de mediana escala, con capacidad de crecimiento controlado.
+                </div>
+                <div class="feature-item">
+                    <strong>Almacenamiento Premium:</strong> NVR con 16 bahías de discos, configurado con 16 discos de 24TB cada uno (384TB total), proporcionando capacidad excepcional para grabaciones de alta calidad y retención extendida.
+                </div>
+                <div class="feature-item">
+                    <strong>Inteligencia Artificial Integrada:</strong> Sistema con capacidad de IA avanzada que incluye:
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li>Detección automática de objetos y personas</li>
+                        <li>Reconocimiento facial y análisis de comportamiento</li>
+                        <li>Alertas inteligentes en tiempo real</li>
+                        <li>Búsqueda avanzada por eventos específicos</li>
+                        <li>Análisis predictivo y reportes automatizados</li>
+                        <li>Monitoreo continuo 24/7 con reconocimiento facial y detección de objetos</li>
+                    </ul>
+                </div>
+                <div class="feature-item">
+                    <strong>Estrategia de Migración Gradual:</strong> El sistema está diseñado para una migración estratégica y controlada que minimiza riesgos operativos. Permite operar en modo híbrido durante la transición, manteniendo el sistema actual funcionando mientras se implementa la nueva infraestructura. Esta aproximación garantiza continuidad operativa sin interrupciones, permite capacitación progresiva del personal y facilita la validación de funcionalidades antes de la migración completa. La integración se realiza mediante interfaces estándar y adaptadores certificados, asegurando compatibilidad y estabilidad durante todo el proceso.
+                </div>
+                <div class="feature-item">
+                    <strong>Ventaja Competitiva:</strong> La capacidad de IA transforma el sistema de CCTV de un simple sistema de grabación a una plataforma inteligente de seguridad y análisis, permitiendo la automatización de tareas de monitoreo y la identificación proactiva de incidentes.
+                </div>
+                <div class="feature-item">
+                    <strong>Infraestructura de Red:</strong> Dos switches PoE de 48 puertos cada uno, proporcionando capacidad para alimentación y conectividad de múltiples cámaras IP de alta resolución.
+                </div>
+            </div>
+            
+            <p class="paragraph" style="text-align: center; margin-top: 20px;">
+                <span class="cost-highlight">Costo aproximado: $23.300</span>
+            </p>
+        </div>
+
+        <!-- Análisis Comparativo -->
+        <div class="section page-break">
+            <h2 class="section-title">4. Análisis Comparativo</h2>
+            
+            <p class="paragraph paragraph-first">
+                A continuación se presenta un análisis comparativo de las tres opciones desde una perspectiva de negocio, considerando aspectos técnicos, operativos y estratégicos.
+            </p>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Característica</th>
+                        <th style="width: 25%;">Opción 1: Focalizada</th>
+                        <th style="width: 25%;">Opción 2: Escalable</th>
+                        <th style="width: 25%;">Opción 3: Premium con IA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Costo de Inversión</strong></td>
+                        <td class="cost-highlight">$8.200</td>
+                        <td>$18.256,25</td>
+                        <td>$23.300</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Escalabilidad Máxima</strong></td>
+                        <td>Escalabilidad limitada</td>
+                        <td>Alta escalabilidad</td>
+                        <td>Escalabilidad media</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Almacenamiento</strong></td>
+                        <td>8 discos x 10TB (80TB)</td>
+                        <td>24 discos x 16TB (320TB)</td>
+                        <td>16 discos x 24TB (384TB)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tiempo de Grabación<br/>(para 22 cámaras)</strong></td>
+                        <td>80 días</td>
+                        <td>300 días</td>
+                        <td>Capacidad extendida</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Inteligencia Artificial</strong></td>
+                        <td>No incluida</td>
+                        <td>No incluida</td>
+                        <td><strong>✓ Incluida</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Estrategia de Migración</strong></td>
+                        <td>Migración directa</td>
+                        <td>Migración directa</td>
+                        <td><strong>Migración gradual controlada</strong><br/>
+                            <small>• Modo híbrido durante transición<br/>
+                            • Continuidad operativa garantizada<br/>
+                            • Capacitación progresiva del personal<br/>
+                            • Validación de funcionalidades antes de migración completa</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Principal Beneficio</strong></td>
+                        <td>
+                            • Costo inicial reducido<br/>
+                            • Respuesta rápida a la necesidad actual<br/>
+                            • Menor alcance para crecimiento
+                        </td>
+                        <td>
+                            • Máxima resiliencia y escalabilidad<br/>
+                            • Protección de la inversión futura<br/>
+                            • Alta capacidad de almacenamiento
+                        </td>
+                        <td>
+                            • IA avanzada para análisis inteligente<br/>
+                            • Almacenamiento premium (384TB)<br/>
+                            • Automatización y alertas proactivas<br/>
+                            • Reconocimiento facial y detección de objetos (24/7)<br/>
+                            • Escalabilidad
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Recomendación -->
+        <div class="section page-break">
+            <h2 class="section-title">5. Recomendación Gerencial</h2>
+            
+            <div class="recommendation-box">
+                <h2>Recomendación: Opción 3 - Solución Premium con Inteligencia Artificial</h2>
+                
+                <p class="paragraph paragraph-first">
+                    Se recomienda proceder con la <strong>Opción 3: Premium con IA</strong>. Esta solución representa una inversión estratégica que posiciona a la empresa a la vanguardia tecnológica en sistemas de seguridad. La <strong>capacidad de Inteligencia Artificial integrada</strong> transforma el sistema de CCTV de un simple dispositivo de grabación a una <strong>plataforma inteligente de análisis y seguridad proactiva</strong>.
+                </p>
+                
+                <h3 style="color: #92400e; margin-top: 25px; margin-bottom: 15px; font-size: 12pt;">Beneficios Clave de la Solución Recomendada:</h3>
+                
+                <ul style="margin-left: 20px;">
+                    <li><strong>Automatización del monitoreo:</strong> Mediante detección inteligente de objetos y personas, el sistema reduce significativamente la dependencia de monitoreo humano continuo, optimizando la eficiencia del personal de seguridad.</li>
+                    <li><strong>Reconocimiento facial:</strong> Capacidad para identificación rápida de individuos, mejorando los tiempos de respuesta en situaciones críticas.</li>
+                    <li><strong>Alertas proactivas en tiempo real:</strong> El sistema genera alertas automáticas cuando detecta comportamientos o eventos específicos, permitiendo una respuesta inmediata antes de que los incidentes escalen.</li>
+                    <li><strong>Análisis predictivo:</strong> La capacidad de análisis de patrones permite anticipar incidentes potenciales antes de que ocurran, transformando la seguridad de reactiva a proactiva.</li>
+                    <li><strong>Estrategia de migración gradual:</strong> Con una inversión inicial de $23.300, esta solución implementa una estrategia de migración gradual y controlada que representa una ventaja operativa significativa. A diferencia de migraciones abruptas que generan riesgos, este enfoque permite operar en modo híbrido, manteniendo el sistema actual funcionando mientras se despliega la nueva infraestructura de forma progresiva.</li>
+                    <li><strong>Continuidad operativa garantizada:</strong> La metodología de migración gradual garantiza continuidad operativa sin interrupciones, facilita la capacitación del personal de manera escalonada y permite validar funcionalidades críticas antes de completar la transición.</li>
+                    <li><strong>Almacenamiento premium:</strong> El almacenamiento de 384TB garantiza la retención de datos críticos por períodos extendidos, cumpliendo con requisitos normativos y proporcionando capacidad para análisis histórico detallado.</li>
+                </ul>
+                
+                <p class="paragraph" style="margin-top: 25px;">
+                    La solución proporciona valor estratégico mediante la reducción de costos operativos, la optimización de la eficiencia del personal de seguridad y la generación de insights estratégicos para la toma de decisiones. Aunque requiere una inversión inicial mayor que las otras opciones, el retorno estratégico se maximiza mediante la automatización, la prevención proactiva de incidentes y la capacidad de análisis avanzado.
+                </p>
+            </div>
+        </div>
+
+        <!-- Consideraciones Adicionales -->
+        <div class="section page-break">
+            <h2 class="section-title">6. Consideraciones Adicionales</h2>
+            
+            <div class="info-box">
+                <h3>6.1. Costos Adicionales</h3>
+                <p class="paragraph paragraph-first">
+                    Es importante destacar que los costos presentados en este documento corresponden únicamente al equipamiento principal (NVR, switches PoE, discos duros y cámaras IP). <strong>No están incluidos</strong> los siguientes conceptos:
+                </p>
+                <ul>
+                    <li>Costos de mano de obra para la instalación</li>
+                    <li>Materiales para la instalación de la red (cables, conectores, canaletas, etc.)</li>
+                    <li>Servicios de configuración e integración</li>
+                    <li>Capacitación del personal</li>
+                    <li>Mantenimiento post-instalación</li>
+                </ul>
+            </div>
+            
+            <div class="info-box">
+                <h3>6.2. Tiempos de Implementación</h3>
+                <p class="paragraph paragraph-first">
+                    Los tiempos de grabación mostrados están calculados para el sistema actual de 22 cámaras. El tiempo de grabación se reducirá proporcionalmente a medida que se añadan más cámaras al sistema, dada la capacidad de almacenamiento instalada.
+                </p>
+            </div>
+            
+            <div class="info-box">
+                <h3>6.3. Compatibilidad y Migración</h3>
+                <p class="paragraph paragraph-first">
+                    La Opción 3 (Premium con IA) requiere una estrategia de migración gradual debido a que no es 100% compatible con las plataformas de monitoreo actuales. Sin embargo, esta limitación se convierte en una ventaja estratégica, ya que permite una transición controlada y sin interrupciones, minimizando riesgos operativos y facilitando la adaptación del personal.
+                </p>
+            </div>
+        </div>
+
+        <!-- Conclusión -->
+        <div class="section">
+            <h2 class="section-title">7. Conclusión</h2>
+            
+            <p class="paragraph paragraph-first">
+                La modernización del sistema de CCTV representa una oportunidad estratégica para mejorar significativamente las capacidades de seguridad y análisis de la organización. Las tres opciones presentadas ofrecen diferentes niveles de inversión y capacidades, permitiendo a la gerencia seleccionar la solución que mejor se alinee con los objetivos estratégicos y las restricciones presupuestarias.
+            </p>
+            
+            <p class="paragraph">
+                La recomendación de la Opción 3: Premium con IA se fundamenta en su capacidad de transformar el sistema de seguridad de reactivo a proactivo, proporcionando herramientas avanzadas de análisis que generan valor estratégico más allá de la simple grabación de video. La inversión inicial, aunque superior a las otras opciones, se justifica mediante los beneficios operativos, la reducción de riesgos y la capacidad de generar insights estratégicos para la toma de decisiones.
+            </p>
+            
+            <p class="paragraph">
+                Se recomienda proceder con la evaluación detallada de la Opción 3, considerando los costos adicionales de implementación y desarrollando un plan de migración gradual que minimice los riesgos operativos mientras se maximiza el valor estratégico de la inversión.
+            </p>
+        </div>
+
+        <!-- Firma -->
+        <div class="signature-section">
+            <div class="signature-line">
+                <p style="margin-bottom: 50px;">_________________________</p>
+                <p><strong>Nombre del Responsable del Proyecto</strong></p>
+                <p>Cargo</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>Nota importante:</strong> Los costos de mano de obra y materiales para la instalación de la red no están incluidos en este presupuesto.</p>
+            <p style="margin-top: 10px;">Documento confidencial - Uso interno</p>
+        </div>
+    </div>
+
+    <script>
+        // Agregar fecha actual
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('es-ES', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+    </script>
+</body>
+</html>
+
+

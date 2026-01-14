@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolución CCTV: Analógico vs IP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e1b4b;
+            --darker: #0f0d24;
+            --light: #f8fafc;
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, #1a1a2e 100%);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .bg-animation::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            bottom: -150px;
+            left: -150px;
+            animation: float 18s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            50% {
+                transform: translate(30px, 30px) rotate(5deg);
+            }
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 13, 36, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            -webkit-text-fill-color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-link {
+            padding: 0.5rem 1rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--light);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 6rem 2rem 3rem;
+        }
+
+        /* Slides */
+        .slide {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(16, 185, 129, 0.2));
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            letter-spacing: 0.5px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #fff 0%, #c4b5fd 50%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            line-height: 1.7;
+        }
+
+        /* Section Title */
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-title p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.1rem;
+        }
+
+        /* Comparison Grid */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .comparison-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .comparison-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .comparison-card.analog::before {
+            background: linear-gradient(90deg, var(--danger), var(--accent));
+        }
+
+        .comparison-card.ip::before {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .comparison-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .analog .card-icon {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(245, 158, 11, 0.2));
+        }
+
+        .ip .card-icon {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(16, 185, 129, 0.2));
+        }
+
+        .card-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .card-header span {
+            display: block;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 400;
+            margin-top: 0.25rem;
+        }
+
+        /* Architecture Diagram */
+        .architecture {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .architecture-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.2rem;
+        }
+
+        .flow-item {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 140px;
+            position: relative;
+        }
+
+        .flow-item .icon {
+            font-size: 1.2rem;
+            margin-bottom: 0.1rem;
+            display: block;
+        }
+
+        .flow-item .label {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .flow-arrow {
+            font-size: 1rem;
+            color: var(--primary);
+            transform: rotate(90deg);
+        }
+
+        .flow-connector {
+            width: 2px;
+            height: 10px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            position: relative;
+        }
+
+        .flow-connector::after {
+            content: '▼';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .analog .flow-connector {
+            background: linear-gradient(180deg, var(--danger), var(--accent));
+        }
+
+        .analog .flow-connector::after {
+            color: var(--accent);
+        }
+
+        /* Feature List */
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .feature-icon.negative {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+
+        .feature-icon.positive {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--secondary);
+        }
+
+        .feature-text {
+            flex: 1;
+        }
+
+        .feature-text strong {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .feature-text span {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Infrastructure Section */
+        .infra-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(16, 185, 129, 0.1));
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 3rem 0;
+        }
+
+        .infra-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .infra-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .infra-header h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .infra-header p {
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 0.5rem;
+        }
+
+        .progress-section {
+            margin-top: 2rem;
+        }
+
+        .progress-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-label {
+            font-weight: 500;
+        }
+
+        .progress-value {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+            margin: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 0;
+            width: 24px;
+            height: 24px;
+            background: var(--dark);
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+        }
+
+        .timeline-item.completed::before {
+            background: var(--secondary);
+            border-color: var(--secondary);
+        }
+
+        .timeline-item.active::before {
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.3);
+        }
+
+        .timeline-item h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-item p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .timeline-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .badge-completed {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--secondary);
+        }
+
+        .badge-progress {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary);
+        }
+
+        .badge-pending {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--accent);
+        }
+
+        /* Alert Box */
+        .alert-box {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(239, 68, 68, 0.1));
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .alert-icon {
+            font-size: 1.5rem;
+        }
+
+        .alert-content h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .alert-content p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Requirements Grid */
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .requirement-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .requirement-card:hover {
+            border-color: var(--primary);
+        }
+
+        .requirement-card.needed {
+            border-color: rgba(245, 158, 11, 0.5);
+        }
+
+        .requirement-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .requirement-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .requirement-card.ready .requirement-icon {
+            background: rgba(16, 185, 129, 0.2);
+        }
+
+        .requirement-card.needed .requirement-icon {
+            background: rgba(245, 158, 11, 0.2);
+        }
+
+        .requirement-status {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            margin-left: auto;
+        }
+
+        .status-ready {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--secondary);
+        }
+
+        .status-needed {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--accent);
+        }
+
+        .status-progress {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary);
+        }
+
+        .requirement-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .requirement-card p {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Benefits Section */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .benefit-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+        }
+
+        .benefit-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(16, 185, 129, 0.2));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .benefit-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .benefit-card p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.6;
+        }
+
+        /* Footer Navigation */
+        .slide-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .slide-counter {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        .slide-nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+        }
+
+        .btn-secondary {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: var(--light);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+
+            .comparison-grid,
+            .requirements-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-animation"></div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="logo">
+            <div class="logo-icon">📹</div>
+            Modernización CCTV
+        </div>
+        <div class="nav-links">
+            <span class="nav-link" onclick="showSlide(1)">Inicio</span>
+            <span class="nav-link" onclick="showSlide(2)">Comparativo</span>
+            <span class="nav-link" onclick="showSlide(3)">Infraestructura</span>
+            <span class="nav-link" onclick="showSlide(4)">Requisitos</span>
+            <span class="nav-link" onclick="showSlide(5)">Beneficios</span>
+            <span class="nav-link" onclick="showSlide(6)">Propuesta</span>
+            <span class="nav-link" onclick="showSlide(7)">Ubicaciones</span>
+            <span class="nav-link" onclick="showSlide(8)">UniFi</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Slide 1: Hero -->
+        <div class="slide active" id="slide1">
+            <div class="hero">
+                <div class="hero-badge">🔄 PROPUESTA DE MODERNIZACIÓN</div>
+                <h1>Evolución del Sistema CCTV: De Analógico a IP</h1>
+                <p class="hero-subtitle">
+                    Análisis comparativo de arquitecturas y los avances en infraestructura de red
+                    que habilitan la implementación de un sistema de videovigilancia de nueva generación.
+                </p>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">117</div>
+                        <div class="stat-label">Cámaras Actuales</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">11</div>
+                        <div class="stat-label">DVRs Distribuidos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">15</div>
+                        <div class="stat-label">Días de Grabación</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">🚀</div>
+                        <div class="stat-label">Red en Modernización</div>
+                    </div>
+                </div>
+
+                <p style="color: rgba(255,255,255,0.5); margin-top: 2rem;">
+                    ⬇️ Desliza o usa el menú para navegar
+                </p>
+            </div>
+
+            <div class="slide-footer">
+                <span class="slide-counter">Diapositiva 1 de 5</span>
+                <div class="slide-nav-buttons">
+                    <button class="btn btn-primary" onclick="showSlide(2)">
+                        Siguiente →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Comparison -->
+        <div class="slide" id="slide2">
+            <div class="section-title">
+                <h2>🔍 Arquitectura Comparativa</h2>
+                <p>Diferencias fundamentales entre sistemas analógicos e IP</p>
+            </div>
+
+            <div class="comparison-grid">
+                <!-- Analog System -->
+                <div class="comparison-card analog">
+                    <div class="card-header">
+                        <div class="card-icon">📼</div>
+                        <div>
+                            <h3>Sistema Analógico</h3>
+                            <span>Infraestructura Actual</span>
+                        </div>
+                    </div>
+
+                    <div class="architecture">
+                        <div class="architecture-title">Diagrama de Conexión (Jerárquico)</div>
+                        <div class="flow-diagram">
+                            <div class="flow-item" style="border-color: var(--accent);">
+                                <span class="icon">�</span>
+                                <span class="label">Switch de Red</span>
+                            </div>
+                            <div class="flow-connector"></div>
+                            <div class="flow-item" style="border-color: var(--danger);">
+                                <span class="icon">📹</span>
+                                <span class="label">DVR Local</span>
+                            </div>
+                            <div class="flow-connector"></div>
+                            <div class="flow-item">
+                                <span class="icon">⚡</span>
+                                <span class="label">Cable UTP + Eléctrico</span>
+                            </div>
+                            <div class="flow-connector"></div>
+                            <div class="flow-item">
+                                <span class="icon">📷</span>
+                                <span class="label">Cámara Analógica</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="feature-list">
+                        <li>
+                            <span class="feature-icon negative">✕</span>
+                            <div class="feature-text">
+                                <strong>Cableado doble requerido</strong>
+                                <span>Cada cámara necesita cable de video + cable eléctrico independiente</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="feature-icon negative">✕</span>
+                            <div class="feature-text">
+                                <strong>Almacenamiento fragmentado</strong>
+                                <span>11 DVRs con almacenamiento individual, difícil gestión centralizada</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="feature-icon negative">✕</span>
+                            <div class="feature-text">
+                                <strong>Escalabilidad limitada</strong>
+                                <span>Cada DVR soporta máximo 16 cámaras, requiere nuevos equipos para crecer</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="feature-icon negative">✕</span>
+                            <div class="feature-text">
+                                <strong>Búsqueda manual</strong>
+                                <span>Revisar horas de video para encontrar eventos específicos</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- IP System -->
+                <div class="comparison-card ip">
+                    <div class="card-header">
+                        <div class="card-icon">🌐</div>
+                        <div>
+                            <h3>Sistema IP</h3>
+                            <span>Solución Propuesta</span>
+                        </div>
+                    </div>
+
+                    <div class="architecture">
+                        <div class="architecture-title">Diagrama de Conexión (Jerárquico)</div>
+                        <div class="flow-diagram">
+                            <div class="flow-item" style="border-color: var(--secondary);">
+                                <span class="icon">💾</span>
+                                <span class="label">NVR Central</span>
+                                <small
+                                    style="display:block; font-size:0.65rem; color: var(--secondary); margin-top:3px;">Almacenamiento
+                                    Centralizado</small>
+                            </div>
+                            <div class="flow-connector"></div>
+                            <div class="flow-item" style="border-color: var(--primary);">
+                                <span class="icon">⚡</span>
+                                <span class="label">Switch PoE</span>
+                                <small
+                                    style="display:block; font-size:0.65rem; color: var(--primary); margin-top:3px;">Provee
+                                    Datos + Energía</small>
+                            </div>
+                            <div class="flow-connector"></div>
+                            <div class="flow-item" style="border-color: var(--secondary);">
+                                <span class="icon">🔌</span>
+                                <span class="label">Cable UTP Cat6</span>
+                                <small
+                                    style="display:block; font-size:0.65rem; color: rgba(255,255,255,0.5); margin-top:3px;">Un
+                                    solo cable</small>
+                            </div>
+                            <div class="flow-connector"></div>
+                            <div class="flow-item" style="border-color: var(--secondary);">
+                                <span class="icon">📷</span>
+                                <span class="label">Cámara IP 4K</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="feature-list">
+                        <li>
+                            <span class="feature-icon positive">✓</span>
+                            <div class="feature-text">
+                                <strong>Un solo cable por cámara</strong>
+                                <span>PoE transmite datos y energía por el mismo cable de red</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="feature-icon positive">✓</span>
+                            <div class="feature-text">
+                                <strong>Almacenamiento centralizado</strong>
+                                <span>Un NVR con múltiples discos para todas las cámaras (16+ bahías)</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="feature-icon positive">✓</span>
+                            <div class="feature-text">
+                                <strong>Alta escalabilidad</strong>
+                                <span>Crecer hasta 70 cámaras 4K</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="feature-icon positive">✓</span>
+                            <div class="feature-text">
+                                <strong>Búsqueda inteligente con IA</strong>
+                                <span>Búsqueda por eventos, personas, objetos o lenguaje natural</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span class="slide-counter">Diapositiva 2 de 5</span>
+                <div class="slide-nav-buttons">
+                    <button class="btn btn-secondary" onclick="showSlide(1)">← Anterior</button>
+                    <button class="btn btn-primary" onclick="showSlide(3)">Siguiente →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Infrastructure Progress -->
+        <div class="slide" id="slide3">
+            <div class="section-title">
+                <h2>🔧 Actualización de Infraestructura de Red</h2>
+                <p>Avances del área de TI que habilitan nuevos proyectos</p>
+            </div>
+
+            <div class="infra-section">
+                <div class="infra-header">
+                    <div class="infra-icon">🚀</div>
+                    <div>
+                        <h3>Modernización en Progreso</h3>
+                        <p>Reemplazo de equipos de networking de 15-20 años por equipos de alta velocidad</p>
+                    </div>
+                </div>
+
+                <div class="progress-section">
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span class="progress-label">Switches Core</span>
+                            <span class="progress-value">100%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span class="progress-label">Cableado Estructurado</span>
+                            <span class="progress-value">70%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 70%;"></div>
+                        </div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span class="progress-label">Switches de Acceso</span>
+                            <span class="progress-value">60%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert-box">
+                <span class="alert-icon">⚠️</span>
+                <div class="alert-content">
+                    <h4>Requisito de Coexistencia de Redes</h4>
+                    <p>Para que las cámaras IP funcionen a la par con la red de computadoras sin degradar el
+                        rendimiento,
+                        se requiere una preparación previa: segmentación de VLANs, QoS configurado, y suficiente ancho
+                        de banda
+                        en la troncal de la red.</p>
+                </div>
+            </div>
+
+            <h3 style="margin: 2rem 0 1.5rem; font-size: 1.3rem;">Cronología de Actualización</h3>
+            <div class="timeline">
+                <div class="timeline-item completed">
+                    <h4>Fase 1: Equipos Core</h4>
+                    <p>Reemplazo de switches principales del datacenter por equipos de 10Gbps</p>
+                    <span class="timeline-badge badge-completed">✓ Completado</span>
+                </div>
+                <div class="timeline-item active">
+                    <h4>Fase 2: Enlaces Troncales</h4>
+                    <p>Actualización de fibra óptica y switch de distribución con enlaces SFP 10-25 Gbps (actualmente 1
+                        Gbps)</p>
+                    <span class="timeline-badge badge-progress">En Progreso</span>
+                </div>
+                <div class="timeline-item active">
+                    <h4>Fase 3: Switches de Acceso</h4>
+                    <p>Reemplazo progresivo de switches de usuario en cada área</p>
+                    <span class="timeline-badge badge-progress">En Progreso</span>
+                </div>
+                <div class="timeline-item">
+                    <h4>Fase 4: Preparación para CCTV</h4>
+                    <p>Instalación de switches PoE dedicados y configuración de VLANs</p>
+                    <span class="timeline-badge badge-pending">Pendiente</span>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span class="slide-counter">Diapositiva 3 de 5</span>
+                <div class="slide-nav-buttons">
+                    <button class="btn btn-secondary" onclick="showSlide(2)">← Anterior</button>
+                    <button class="btn btn-primary" onclick="showSlide(4)">Siguiente →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Requirements -->
+        <div class="slide" id="slide4">
+            <div class="section-title">
+                <h2>📋 Requisitos para Implementación</h2>
+                <p>Estado actual de la infraestructura y áreas de mejora pendientes</p>
+            </div>
+
+            <div class="requirements-grid">
+                <div class="requirement-card ready">
+                    <div class="requirement-header">
+                        <div class="requirement-icon">🖥️</div>
+                        <h4>Switches Core</h4>
+                        <span class="requirement-status status-ready">✓ Listo</span>
+                    </div>
+                    <p>Equipos de alta velocidad instalados en datacenter principal</p>
+                </div>
+
+                <div class="requirement-card needed">
+                    <div class="requirement-header">
+                        <div class="requirement-icon">🌐</div>
+                        <h4>Red Troncal</h4>
+                        <span class="requirement-status status-progress">En Progreso</span>
+                    </div>
+                    <p>Switch de distribución con enlaces SFP 10-25 Gbps pendiente (actualmente 1 Gbps)</p>
+                </div>
+
+                <div class="requirement-card needed">
+                    <div class="requirement-header">
+                        <div class="requirement-icon">⚡</div>
+                        <h4>Switches PoE</h4>
+                        <span class="requirement-status status-needed">Requerido</span>
+                    </div>
+                    <p>Se necesitan 2 switches PoE de 48 puertos para alimentar las cámaras IP</p>
+                </div>
+
+                <div class="requirement-card needed">
+                    <div class="requirement-header">
+                        <div class="requirement-icon">🔀</div>
+                        <h4>Segmentación VLAN</h4>
+                        <span class="requirement-status status-needed">Requerido</span>
+                    </div>
+                    <p>Configurar VLANs separadas para aislar tráfico de video del tráfico de datos</p>
+                </div>
+
+                <div class="requirement-card needed">
+                    <div class="requirement-header">
+                        <div class="requirement-icon">📊</div>
+                        <h4>QoS (Calidad de Servicio)</h4>
+                        <span class="requirement-status status-needed">Requerido</span>
+                    </div>
+                    <p>Priorización de tráfico para garantizar fluidez de video sin afectar red de usuarios</p>
+                </div>
+
+                <div class="requirement-card needed">
+                    <div class="requirement-header">
+                        <div class="requirement-icon">🔌</div>
+                        <h4>Puntos de Red Adicionales</h4>
+                        <span class="requirement-status status-needed">Algunas Áreas</span>
+                    </div>
+                    <p>Ciertas ubicaciones de cámaras requieren instalación de nuevos puntos de red</p>
+                </div>
+            </div>
+
+            <div class="infra-section"
+                style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(99, 102, 241, 0.1));">
+                <h3 style="margin-bottom: 1.5rem;">💡 Ventaja de la Actualización de Red</h3>
+                <p style="font-size: 1.1rem; line-height: 1.8; color: rgba(255,255,255,0.8);">
+                    La inversión que el área de TI ha realizado en la modernización de la infraestructura de red
+                    <strong>habilita directamente</strong> la implementación de proyectos avanzados como CCTV IP.
+                    Sin esta base actualizada, un sistema de cámaras IP de alta resolución (4K) saturaría la red
+                    existente
+                    y degradaría el rendimiento tanto del video como de las aplicaciones empresariales.
+                </p>
+            </div>
+
+            <div class="slide-footer">
+                <span class="slide-counter">Diapositiva 4 de 5</span>
+                <div class="slide-nav-buttons">
+                    <button class="btn btn-secondary" onclick="showSlide(3)">← Anterior</button>
+                    <button class="btn btn-primary" onclick="showSlide(5)">Siguiente →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Benefits -->
+        <div class="slide" id="slide5">
+            <div class="section-title">
+                <h2>✨ Beneficios de la Migración a IP</h2>
+                <p>Ventajas competitivas del nuevo sistema</p>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">📅</div>
+                    <h4>Mayor Retención</h4>
+                    <p>De 15 días a 180+ días de grabación continua con almacenamiento centralizado</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔍</div>
+                    <h4>Resolución 4K</h4>
+                    <p>Zoom digital sin pixelado, identificación precisa de personas y objetos</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🤖</div>
+                    <h4>Inteligencia Artificial</h4>
+                    <p>Detección automática de eventos, reconocimiento facial, búsqueda inteligente</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚡</div>
+                    <h4>Instalación Simplificada</h4>
+                    <p>Un solo cable por cámara (PoE), sin necesidad de cableado eléctrico adicional</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎯</div>
+                    <h4>Gestión Centralizada</h4>
+                    <p>Una sola interfaz para administrar todas las cámaras, sin múltiples DVRs</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📈</div>
+                    <h4>Escalabilidad</h4>
+                    <p>Crecer hasta 70 cámaras 4K</p>
+                </div>
+            </div>
+
+            <div class="stats-grid" style="margin-top: 3rem;">
+                <div class="stat-card">
+                    <div class="stat-value">12x</div>
+                    <div class="stat-label">Más días de grabación</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">4x</div>
+                    <div class="stat-label">Mayor resolución</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">1</div>
+                    <div class="stat-label">Solo cable por cámara</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">Centralizado</div>
+                </div>
+            </div>
+
+            <div class="infra-section" style="text-align: center; margin-top: 3rem;">
+                <h3 style="margin-bottom: 1rem;">🎯 Conclusión</h3>
+                <p
+                    style="font-size: 1.2rem; line-height: 1.8; color: rgba(255,255,255,0.9); max-width: 800px; margin: 0 auto;">
+                    La modernización de la infraestructura de red realizada por TI
+                    <strong>sienta las bases</strong> para implementar un sistema CCTV IP de nueva generación.
+                    Con las mejoras adicionales identificadas, la empresa estará lista para dar el salto
+                    hacia un sistema de videovigilancia inteligente, eficiente y preparado para el futuro.
+                </p>
+            </div>
+
+            <div class="slide-footer">
+                <span class="slide-counter">Diapositiva 5 de 6</span>
+                <div class="slide-nav-buttons">
+                    <button class="btn btn-secondary" onclick="showSlide(4)">← Anterior</button>
+                    <button class="btn btn-primary" onclick="showSlide(6)">Propuesta →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Propuesta Económica -->
+        <div class="slide" id="slide6">
+            <div class="section-title">
+                <h2>💰 Propuesta Económica</h2>
+                <p>Cotización del Sistema CCTV IP</p>
+            </div>
+
+            <div class="infra-section" style="padding: 2rem;">
+                <h3 style="margin-bottom: 1.5rem; text-align: center;">📋 Componentes Esenciales</h3>
+
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem;">
+                    <thead>
+                        <tr style="background: linear-gradient(135deg, var(--primary), var(--secondary));">
+                            <th style="padding: 1rem; text-align: left; border-radius: 8px 0 0 0;">Componente</th>
+                            <th style="padding: 1rem; text-align: center;">Cantidad</th>
+                            <th style="padding: 1rem; text-align: right;">P. Unitario</th>
+                            <th style="padding: 1rem; text-align: right; border-radius: 0 8px 0 0;">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- CONECTIVIDAD -->
+                        <tr style="background: rgba(99, 102, 241, 0.2);">
+                            <td colspan="4" style="padding: 0.75rem 1rem; font-weight: 700; color: var(--primary);">🔌
+                                CONECTIVIDAD</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border);">
+                            <td style="padding: 0.75rem 1rem; padding-left: 2rem;">Cableado UTP</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">25</td>
+                            <td style="padding: 0.75rem 1rem; text-align: right;">$150.00</td>
+                            <td style="padding: 0.75rem 1rem; text-align: right; font-weight: 600;">$3,750.00</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border);">
+                            <td style="padding: 0.75rem 1rem; padding-left: 2rem;">Patch Cord</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">25</td>
+                            <td style="padding: 0.75rem 1rem; text-align: right;">$5.50</td>
+                            <td style="padding: 0.75rem 1rem; text-align: right; font-weight: 600;">$137.50</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border);">
+                            <td style="padding: 0.75rem 1rem; padding-left: 2rem;">Switch PoE</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">2</td>
+                            <td style="padding: 0.75rem 1rem; text-align: right;">$990.00</td>
+                            <td style="padding: 0.75rem 1rem; text-align: right; font-weight: 600;">$1,980.00</td>
+                        </tr>
+
+                        <!-- ALMACENAMIENTO -->
+                        <tr style="background: rgba(16, 185, 129, 0.2);">
+                            <td colspan="4" style="padding: 0.75rem 1rem; font-weight: 700; color: var(--secondary);">💾
+                                ALMACENAMIENTO</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border);">
+                            <td style="padding: 0.75rem 1rem; padding-left: 2rem;">UniFi Protect ENVR</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">1</td>
+                            <td style="padding: 0.75rem 1rem; text-align: right;">$2,498.75</td>
+                            <td style="padding: 0.75rem 1rem; text-align: right; font-weight: 600;">$2,498.75</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border);">
+                            <td style="padding: 0.75rem 1rem; padding-left: 2rem;">Discos 24 TB</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">6</td>
+                            <td style="padding: 0.75rem 1rem; text-align: right;">$690.34</td>
+                            <td style="padding: 0.75rem 1rem; text-align: right; font-weight: 600;">$4,142.04</td>
+                        </tr>
+
+                        <!-- CÁMARAS -->
+                        <tr style="background: rgba(245, 158, 11, 0.2);">
+                            <td colspan="4" style="padding: 0.75rem 1rem; font-weight: 700; color: var(--accent);">📷
+                                CÁMARAS</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border);">
+                            <td style="padding: 0.75rem 1rem; padding-left: 2rem;">G6 Bullet 4K</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">25</td>
+                            <td style="padding: 0.75rem 1rem; text-align: right;">$249.08</td>
+                            <td style="padding: 0.75rem 1rem; text-align: right; font-weight: 600;">$6,227.00</td>
+                        </tr>
+
+                        <!-- ANALÍTICA IA -->
+                        <tr style="background: rgba(139, 92, 246, 0.2);">
+                            <td colspan="4" style="padding: 0.75rem 1rem; font-weight: 700; color: #8b5cf6;">🤖
+                                ANALÍTICA + IA</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border);">
+                            <td style="padding: 0.75rem 1rem; padding-left: 2rem;">Ubiquiti AI-Key</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">1</td>
+                            <td style="padding: 0.75rem 1rem; text-align: right;">$1,389.00</td>
+                            <td style="padding: 0.75rem 1rem; text-align: right; font-weight: 600;">$1,389.00</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr style="border-top: 2px solid var(--glass-border);">
+                            <td colspan="3" style="padding: 1rem; text-align: right; font-weight: 600;">SUBTOTAL</td>
+                            <td style="padding: 1rem; text-align: right; font-weight: 700;">$20,124.29</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="padding: 0.75rem 1rem; text-align: right;">IVA 15%</td>
+                            <td style="padding: 0.75rem 1rem; text-align: right;">$3,018.64</td>
+                        </tr>
+                        <tr style="background: linear-gradient(135deg, var(--primary), var(--secondary));">
+                            <td colspan="3"
+                                style="padding: 1rem; text-align: right; font-weight: 800; font-size: 1.2rem; border-radius: 0 0 0 8px;">
+                                TOTAL</td>
+                            <td
+                                style="padding: 1rem; text-align: right; font-weight: 800; font-size: 1.3rem; border-radius: 0 0 8px 0;">
+                                $23,142.93</td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <!-- Resumen de componentes -->
+                <div class="stats-grid" style="margin-top: 2rem;">
+                    <div class="stat-card">
+                        <div class="stat-value">🔌</div>
+                        <div class="stat-label">Conectividad</div>
+                        <div style="color: var(--secondary); font-weight: 600;">$5,867.50</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">💾</div>
+                        <div class="stat-label">Almacenamiento</div>
+                        <div style="color: var(--secondary); font-weight: 600;">$6,640.79</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">📷</div>
+                        <div class="stat-label">Cámaras</div>
+                        <div style="color: var(--secondary); font-weight: 600;">$6,227.00</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">🤖</div>
+                        <div class="stat-label">Analítica + IA</div>
+                        <div style="color: var(--secondary); font-weight: 600;">$1,389.00</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span class="slide-counter">Diapositiva 6 de 7</span>
+                <div class="slide-nav-buttons">
+                    <button class="btn btn-secondary" onclick="showSlide(5)">← Anterior</button>
+                    <button class="btn btn-primary" onclick="showSlide(7)">Ubicaciones →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Ubicaciones de Cámaras -->
+        <div class="slide" id="slide7">
+            <div class="section-title">
+                <h2>📍 Ubicaciones de Instalación</h2>
+                <p>Detalle de áreas donde se instalarán las cámaras</p>
+            </div>
+
+            <div class="infra-section" style="padding: 2rem;">
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem;">
+                    <thead>
+                        <tr style="background: linear-gradient(135deg, var(--primary), var(--secondary));">
+                            <th style="padding: 1rem; text-align: left; border-radius: 8px 0 0 0;">Ubicación</th>
+                            <th style="padding: 1rem; text-align: center;">Conexión Switch</th>
+                            <th style="padding: 1rem; text-align: center;">Estado Switch</th>
+                            <th style="padding: 1rem; text-align: center;">Cámaras Analógicas</th>
+                            <th style="padding: 1rem; text-align: center; border-radius: 0 8px 0 0;">Cámaras IP G6</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid var(--glass-border);">
+                            <td style="padding: 0.75rem 1rem; font-weight: 600;">🚪 Entrada Peatonal Garita 1</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">Switch Garita 1</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;"><span
+                                    style="background: var(--danger); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">REQUERIDO</span>
+                            </td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">4</td>
+                            <td
+                                style="padding: 0.75rem 1rem; text-align: center; font-weight: 700; color: var(--secondary);">
+                                4</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border); background: rgba(255,255,255,0.02);">
+                            <td style="padding: 0.75rem 1rem; font-weight: 600;">🚚 Embarque</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">Switch Embarque</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;"><span
+                                    style="background: var(--primary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">CON
+                                    ADAP POE</span></td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">2</td>
+                            <td
+                                style="padding: 0.75rem 1rem; text-align: center; font-weight: 700; color: var(--secondary);">
+                                2</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border);">
+                            <td style="padding: 0.75rem 1rem; font-weight: 600;">📦 Materia Prima</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">Switch Materia Prima</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;"><span
+                                    style="background: var(--primary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">CON
+                                    ADAP POE</span></td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">2</td>
+                            <td
+                                style="padding: 0.75rem 1rem; text-align: center; font-weight: 700; color: var(--secondary);">
+                                2</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border); background: rgba(255,255,255,0.02);">
+                            <td style="padding: 0.75rem 1rem; font-weight: 600;">🥫 Enlatado</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">Switch Proceso</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;"><span
+                                    style="background: var(--secondary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">CUBIERTO</span>
+                            </td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">2</td>
+                            <td
+                                style="padding: 0.75rem 1rem; text-align: center; font-weight: 700; color: var(--secondary);">
+                                4</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border);">
+                            <td style="padding: 0.75rem 1rem; font-weight: 600;">📦 Pouch</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">Switch Proceso</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;"><span
+                                    style="background: var(--secondary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">CUBIERTO</span>
+                            </td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">2</td>
+                            <td
+                                style="padding: 0.75rem 1rem; text-align: center; font-weight: 700; color: var(--secondary);">
+                                2</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border); background: rgba(255,255,255,0.02);">
+                            <td style="padding: 0.75rem 1rem; font-weight: 600;">🏢 Recorrido Ingreso Administración
+                            </td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">Switch Administración</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;"><span
+                                    style="background: var(--secondary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">CUBIERTO</span>
+                            </td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">2</td>
+                            <td
+                                style="padding: 0.75rem 1rem; text-align: center; font-weight: 700; color: var(--secondary);">
+                                2</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border);">
+                            <td style="padding: 0.75rem 1rem; font-weight: 600;">🛤️ Recorrido Ingreso MP</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">Switch Data Center</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;"><span
+                                    style="background: var(--secondary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">CUBIERTO</span>
+                            </td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">4</td>
+                            <td
+                                style="padding: 0.75rem 1rem; text-align: center; font-weight: 700; color: var(--secondary);">
+                                4</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border); background: rgba(255,255,255,0.02);">
+                            <td style="padding: 0.75rem 1rem; font-weight: 600;">⚠️ Desechos Peligrosos</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">-</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;"><span
+                                    style="background: var(--primary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">CON
+                                    ADAP POE</span></td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">1</td>
+                            <td
+                                style="padding: 0.75rem 1rem; text-align: center; font-weight: 700; color: var(--secondary);">
+                                1</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border);">
+                            <td style="padding: 0.75rem 1rem; font-weight: 600;">🛣️ Ronda Norte (Vía Etiquetado)</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">Switch Etiquetado</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;"><span
+                                    style="background: var(--danger); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">REQUERIDO</span>
+                            </td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">-</td>
+                            <td
+                                style="padding: 0.75rem 1rem; text-align: center; font-weight: 700; color: var(--secondary);">
+                                2</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border); background: rgba(255,255,255,0.02);">
+                            <td style="padding: 0.75rem 1rem; font-weight: 600;">🏷️ Etiquetado</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">Switch Etiquetado</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;"><span
+                                    style="background: var(--danger); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">REQUERIDO</span>
+                            </td>
+                            <td style="padding: 0.75rem 1rem; text-align: center;">2</td>
+                            <td
+                                style="padding: 0.75rem 1rem; text-align: center; font-weight: 700; color: var(--secondary);">
+                                2</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr style="background: linear-gradient(135deg, var(--primary), var(--secondary));">
+                            <td colspan="3"
+                                style="padding: 1rem; text-align: right; font-weight: 800; font-size: 1.1rem; border-radius: 0 0 0 8px;">
+                                TOTAL CÁMARAS</td>
+                            <td style="padding: 1rem; text-align: center; font-weight: 800; font-size: 1.1rem;">21</td>
+                            <td
+                                style="padding: 1rem; text-align: center; font-weight: 800; font-size: 1.2rem; border-radius: 0 0 8px 0;">
+                                25</td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <!-- Leyenda de estados -->
+                <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span
+                            style="background: var(--secondary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">CUBIERTO</span>
+                        <span style="font-size: 0.85rem; color: rgba(255,255,255,0.7);">Switch disponible con
+                            puertos</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span
+                            style="background: var(--primary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">CON
+                            ADAP POE</span>
+                        <span style="font-size: 0.85rem; color: rgba(255,255,255,0.7);">Requiere adaptador PoE</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span
+                            style="background: var(--danger); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">REQUERIDO</span>
+                        <span style="font-size: 0.85rem; color: rgba(255,255,255,0.7);">Switch nuevo requerido</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span class="slide-counter">Diapositiva 7 de 8</span>
+                <div class="slide-nav-buttons">
+                    <button class="btn btn-secondary" onclick="showSlide(6)">← Anterior</button>
+                    <button class="btn btn-primary" onclick="showSlide(8)">¿Por qué UniFi? →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: ¿Por qué UniFi? -->
+        <div class="slide" id="slide8">
+            <div class="section-title">
+                <h2>🛡️ ¿Por qué UniFi?</h2>
+                <p>Ventajas de la solución Full-Stack de Ubiquiti</p>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-card" style="border-left: 4px solid var(--secondary);">
+                    <div class="benefit-icon">🔐</div>
+                    <h4>Seguridad Integral</h4>
+                    <p>Cifrado de extremo a extremo, arranque seguro, datos almacenados localmente sin nubes de terceros
+                    </p>
+                </div>
+                <div class="benefit-card" style="border-left: 4px solid var(--primary);">
+                    <div class="benefit-icon">🔗</div>
+                    <h4>Integración Total</h4>
+                    <p>Un solo ecosistema: cámaras, switches, access points, NVR y control de acceso bajo una consola
+                        unificada</p>
+                </div>
+                <div class="benefit-card" style="border-left: 4px solid var(--accent);">
+                    <div class="benefit-icon">💰</div>
+                    <h4>Sin Costos Recurrentes</h4>
+                    <p>Licencia perpetua incluida. Sin pagos mensuales por software, almacenamiento en nube o número de
+                        cámaras</p>
+                </div>
+                <div class="benefit-card" style="border-left: 4px solid #8b5cf6;">
+                    <div class="benefit-icon">🤖</div>
+                    <h4>IA Nativa Integrada</h4>
+                    <p>Detección de personas, vehículos, rostros y búsqueda por lenguaje natural con el AI-Key</p>
+                </div>
+                <div class="benefit-card" style="border-left: 4px solid #ec4899;">
+                    <div class="benefit-icon">🔄</div>
+                    <h4>Actualizaciones Continuas</h4>
+                    <p>Firmware y nuevas funcionalidades gratuitas. El sistema mejora con el tiempo sin costo adicional
+                    </p>
+                </div>
+                <div class="benefit-card" style="border-left: 4px solid #14b8a6;">
+                    <div class="benefit-icon">📱</div>
+                    <h4>Acceso Remoto Seguro</h4>
+                    <p>Visualización desde cualquier lugar via app móvil o web, sin exponer puertos ni configurar VPN
+                    </p>
+                </div>
+            </div>
+
+            <!-- Comparativa vs Competencia -->
+            <div class="infra-section" style="margin-top: 2rem; padding: 2rem;">
+                <h3 style="margin-bottom: 1.5rem; text-align: center;">⚖️ UniFi vs Otras Soluciones</h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: linear-gradient(135deg, var(--primary), var(--secondary));">
+                            <th style="padding: 1rem; text-align: left; border-radius: 8px 0 0 0;">Característica</th>
+                            <th style="padding: 1rem; text-align: center;">UniFi</th>
+                            <th style="padding: 1rem; text-align: center; border-radius: 0 8px 0 0;">Competencia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid var(--glass-border);">
+                            <td style="padding: 0.75rem 1rem;">Licencias de software</td>
+                            <td
+                                style="padding: 0.75rem 1rem; text-align: center; color: var(--secondary); font-weight: 600;">
+                                ✓ Gratis de por vida</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center; color: var(--danger);">✗ $500-2000/año
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border); background: rgba(255,255,255,0.02);">
+                            <td style="padding: 0.75rem 1rem;">Almacenamiento en nube</td>
+                            <td
+                                style="padding: 0.75rem 1rem; text-align: center; color: var(--secondary); font-weight: 600;">
+                                ✓ Local incluido</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center; color: var(--danger);">✗ Pago mensual
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border);">
+                            <td style="padding: 0.75rem 1rem;">Analítica con IA</td>
+                            <td
+                                style="padding: 0.75rem 1rem; text-align: center; color: var(--secondary); font-weight: 600;">
+                                ✓ Pago único</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center; color: var(--danger);">✗ Suscripción
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border); background: rgba(255,255,255,0.02);">
+                            <td style="padding: 0.75rem 1rem;">Integración con red</td>
+                            <td
+                                style="padding: 0.75rem 1rem; text-align: center; color: var(--secondary); font-weight: 600;">
+                                ✓ Nativa total</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center; color: var(--accent);">~ Limitada</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--glass-border);">
+                            <td style="padding: 0.75rem 1rem;">Consola unificada</td>
+                            <td
+                                style="padding: 0.75rem 1rem; text-align: center; color: var(--secondary); font-weight: 600;">
+                                ✓ Todo en uno</td>
+                            <td style="padding: 0.75rem 1rem; text-align: center; color: var(--danger);">✗ Múltiples
+                                apps</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="stats-grid" style="margin-top: 2rem;">
+                <div class="stat-card">
+                    <div class="stat-value">🌐</div>
+                    <div class="stat-label">Ecosistema UniFi</div>
+                    <div style="color: var(--secondary); font-weight: 600; font-size: 0.85rem;">Cámaras + Red + Control
+                        de Acceso</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">📊</div>
+                    <div class="stat-label">ROI Superior</div>
+                    <div style="color: var(--secondary); font-weight: 600; font-size: 0.85rem;">Menor TCO a 3+ años
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">🏆</div>
+                    <div class="stat-label">Soporte Global</div>
+                    <div style="color: var(--secondary); font-weight: 600; font-size: 0.85rem;">Comunidad activa +
+                        Garantía</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">🚀</div>
+                    <div class="stat-label">Preparado para el Futuro</div>
+                    <div style="color: var(--secondary); font-weight: 600; font-size: 0.85rem;">Expandible sin cambiar
+                        plataforma</div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span class="slide-counter">Diapositiva 8 de 8</span>
+                <div class="slide-nav-buttons">
+                    <button class="btn btn-secondary" onclick="showSlide(7)">← Anterior</button>
+                    <button class="btn btn-primary" onclick="showSlide(1)">🔄 Reiniciar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 8;
+
+        function showSlide(n) {
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            // Update nav links
+            document.querySelectorAll('.nav-link').forEach((link, index) => {
+                link.classList.remove('active');
+                if (index + 1 === n) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Show selected slide
+            document.getElementById('slide' + n).classList.add('active');
+            currentSlide = n;
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < totalSlides) {
+                    showSlide(currentSlide + 1);
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 1) {
+                    showSlide(currentSlide - 1);
+                }
+            }
+        });
+
+        // Initialize first nav link as active
+        document.querySelector('.nav-link').classList.add('active');
+    </script>
+</body>
+
+</html>

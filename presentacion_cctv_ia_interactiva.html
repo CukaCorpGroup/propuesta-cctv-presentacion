@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modernización Sistema CCTV - Transición Inteligente a Cámaras IP con IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #1f2937;
+            min-height: 100vh;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .tab-button {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            padding: 12px 24px;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .tab-button.active {
+            background: rgba(255, 255, 255, 0.9);
+            color: #1f2937;
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .tab-button:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+        
+        .slide-content {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+            display: none;
+        }
+        
+        .slide-content.active {
+            opacity: 1;
+            transform: translateY(0);
+            display: block;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .ai-highlight {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+        }
+        
+        .infrastructure-highlight {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+        
+        .budget-calculator {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+        }
+        
+        .input-field {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: #1f2937;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+        }
+        
+        .comparison-table {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+        }
+        
+        .comparison-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: rgba(248, 250, 252, 0.8);
+        }
+        
+        .advantage-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        
+        .cost-display {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #f59e0b;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .ai-icon {
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        
+        @keyframes pulse-ai {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .pulse-ai {
+            animation: pulse-ai 2s ease-in-out infinite;
+        }
+        
+        .diagram-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="gradient-bg">
+    <div class="min-h-screen p-4 sm:p-8">
+        <div class="max-w-6xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-4 tracking-wide">
+                    Modernización Sistema CCTV
+                </h1>
+                <p class="text-xl text-white opacity-90 mb-2">
+                    Transición Inteligente: De Analógico a IP con Inteligencia Artificial
+                </p>
+                <p class="text-lg text-white opacity-75">
+                    Aprovechando la Modernización de Infraestructura Existente
+                </p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+                <button id="tab-beneficios" class="tab-button active">Beneficios IA</button>
+                <button id="tab-infraestructura" class="tab-button">Infraestructura</button>
+                <button id="tab-comparacion" class="tab-button">Comparación</button>
+                <button id="tab-presupuesto" class="tab-button">Presupuesto</button>
+                <button id="tab-recomendacion" class="tab-button">Recomendación</button>
+            </div>
+
+            <!-- Content Container -->
+            <div class="card p-6 sm:p-8">
+                
+                <!-- Beneficios de IA -->
+                <div id="content-beneficios" class="slide-content active">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">
+                        <svg class="ai-icon pulse-ai" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="8" fill="#10b981" fill-opacity="0.2"/>
+                            <circle cx="12" cy="12" r="3" fill="#10b981"/>
+                            <path d="M12 1v6m0 10v6m11-7h-6m-10 0H1" stroke="#10b981" stroke-width="2"/>
+                        </svg>
+                        Capacidades Avanzadas: Cámaras IP con Inteligencia Artificial
+                    </h2>
+
+                    <div class="grid md:grid-cols-2 gap-6 mb-8">
+                        <div class="ai-highlight">
+                            <h3 class="text-2xl font-bold mb-4">🧠 Capacidades de IA Integrada</h3>
+                            <ul class="space-y-3 text-lg">
+                                <li class="flex items-start">
+                                    <span class="text-green-300 mr-2">✓</span>
+                                    <strong>Detección Automática de Objetos:</strong> Personas, vehículos, paquetes
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-300 mr-2">✓</span>
+                                    <strong>Reconocimiento Facial:</strong> Identificación en tiempo real 24/7
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-300 mr-2">✓</span>
+                                    <strong>Análisis de Comportamiento:</strong> Detección de actividades sospechosas
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-300 mr-2">✓</span>
+                                    <strong>Alertas Inteligentes:</strong> Notificaciones proactivas automáticas
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-300 mr-2">✓</span>
+                                    <strong>Búsqueda Avanzada:</strong> Localización de eventos específicos
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-card">
+                            <h3 class="text-xl font-bold text-gray-800 mb-4">📈 Ventajas vs Sistema Analógico</h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium">Resolución:</span>
+                                    <div class="text-right">
+                                        <div class="text-red-600 line-through">1080p (2MP)</div>
+                                        <div class="text-green-600 font-bold">4K (8MP) - 4x mejor</div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium">Zoom Digital:</span>
+                                    <div class="text-right">
+                                        <div class="text-red-600 line-through">Pixelado severo</div>
+                                        <div class="text-green-600 font-bold">Claridad mantenida</div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium">Gestión:</span>
+                                    <div class="text-right">
+                                        <div class="text-red-600 line-through">11 DVRs separados</div>
+                                        <div class="text-green-600 font-bold">1 NVR centralizado</div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium">Almacenamiento:</span>
+                                    <div class="text-right">
+                                        <div class="text-red-600 line-through">15 días</div>
+                                        <div class="text-green-600 font-bold">300+ días</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="feature-card text-center">
+                            <div class="text-3xl mb-2">🎯</div>
+                            <h4 class="font-bold text-lg mb-2">Detección Precisa</h4>
+                            <p class="text-gray-600">Reducción del 95% en falsas alarmas</p>
+                        </div>
+                        <div class="feature-card text-center">
+                            <div class="text-3xl mb-2">⚡</div>
+                            <h4 class="font-bold text-lg mb-2">Respuesta Inmediata</h4>
+                            <p class="text-gray-600">Alertas en menos de 3 segundos</p>
+                        </div>
+                        <div class="feature-card text-center">
+                            <div class="text-3xl mb-2">📊</div>
+                            <h4 class="font-bold text-lg mb-2">Analytics Avanzado</h4>
+                            <p class="text-gray-600">Reportes automáticos e insights</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Infraestructura -->
+                <div id="content-infraestructura" class="slide-content">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">
+                        🏗️ Transición Menos Traumática: Aprovechando la Modernización Existente
+                    </h2>
+
+                    <div class="infrastructure-highlight mb-8">
+                        <h3 class="text-2xl font-bold mb-4">🚀 Ventaja Estratégica: Infraestructura en Modernización</h3>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="text-xl font-semibold mb-3">Trabajo Actual del Área Tecnológica:</h4>
+                                <ul class="space-y-2 text-lg">
+                                    <li class="flex items-start">
+                                        <span class="text-blue-300 mr-2">🔧</span>
+                                        Modernización de infraestructura de red
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-blue-300 mr-2">🔧</span>
+                                        Mejora de conectividad empresarial
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-blue-300 mr-2">🔧</span>
+                                        Fortalecimiento del backbone de red
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-blue-300 mr-2">🔧</span>
+                                        Actualización de switches y routers
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-semibold mb-3">Beneficios para CCTV IP:</h4>
+                                <ul class="space-y-2 text-lg">
+                                    <li class="flex items-start">
+                                        <span class="text-green-300 mr-2">✓</span>
+                                        <strong>Infraestructura lista</strong> para cámaras IP
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-green-300 mr-2">✓</span>
+                                        <strong>Reducción de costos</strong> de instalación
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-green-300 mr-2">✓</span>
+                                        <strong>Implementación más rápida</strong>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-green-300 mr-2">✓</span>
+                                        <strong>Menos interrupciones</strong> operativas
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="diagram-container">
+                        <h3 class="text-xl font-bold text-center mb-4">Estrategia de Migración Gradual</h3>
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div class="text-center">
+                                <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
+                                    <span class="text-2xl font-bold text-blue-600">1</span>
+                                </div>
+                                <h4 class="font-bold text-lg mb-2">Fase 1: Preparación</h4>
+                                <p class="text-gray-600">Aprovechamiento de infraestructura modernizada</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
+                                    <span class="text-2xl font-bold text-green-600">2</span>
+                                </div>
+                                <h4 class="font-bold text-lg mb-2">Fase 2: Implementación</h4>
+                                <p class="text-gray-600">Instalación de NVR y migración por zonas</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
+                                    <span class="text-2xl font-bold text-purple-600">3</span>
+                                </div>
+                                <h4 class="font-bold text-lg mb-2">Fase 3: Optimización</h4>
+                                <p class="text-gray-600">Activación completa de IA y capacitación</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-green-50 border-l-4 border-green-400 p-6 rounded-r-lg">
+                        <h4 class="text-lg font-bold text-green-800 mb-2">💡 Momento Ideal para la Transición</h4>
+                        <p class="text-green-700">
+                            La modernización actual de la infraestructura de red representa el momento perfecto para implementar 
+                            el sistema de CCTV IP. Esta sincronización permite aprovechar las mejoras en conectividad y backbone, 
+                            reduciendo significativamente los costos de implementación y minimizando las interrupciones operativas.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Comparación -->
+                <div id="content-comparacion" class="slide-content">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">
+                        📊 Comparación Detallada: Analógico vs IP con IA
+                    </h2>
+
+                    <div class="comparison-table mb-8">
+                        <table class="w-full">
+                            <thead>
+                                <tr>
+                                    <th class="text-left">Característica</th>
+                                    <th class="text-center">Sistema Actual (Analógico)</th>
+                                    <th class="text-center">Sistema IP con IA</th>
+                                    <th class="text-center">Mejora</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-semibold">Resolución de Video</td>
+                                    <td class="text-center text-red-600">1080p (2MP)</td>
+                                    <td class="text-center text-green-600 font-bold">4K (8MP)</td>
+                                    <td class="text-center">
+                                        <span class="advantage-badge">400% mejor</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">Calidad de Zoom</td>
+                                    <td class="text-center text-red-600">Pixelado severo</td>
+                                    <td class="text-center text-green-600 font-bold">Claridad mantenida</td>
+                                    <td class="text-center">
+                                        <span class="advantage-badge">Excelente</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">Gestión de Sistema</td>
+                                    <td class="text-center text-red-600">11 DVRs separados</td>
+                                    <td class="text-center text-green-600 font-bold">1 NVR centralizado</td>
+                                    <td class="text-center">
+                                        <span class="advantage-badge">Simplificado</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">Tiempo de Grabación</td>
+                                    <td class="text-center text-red-600">~15 días</td>
+                                    <td class="text-center text-green-600 font-bold">300+ días</td>
+                                    <td class="text-center">
+                                        <span class="advantage-badge">20x más</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">Detección Automática</td>
+                                    <td class="text-center text-red-600">No disponible</td>
+                                    <td class="text-center text-green-600 font-bold">IA Avanzada</td>
+                                    <td class="text-center">
+                                        <span class="advantage-badge">Nuevo</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">Reconocimiento Facial</td>
+                                    <td class="text-center text-red-600">Manual</td>
+                                    <td class="text-center text-green-600 font-bold">Automático 24/7</td>
+                                    <td class="text-center">
+                                        <span class="advantage-badge">Automático</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">Alertas</td>
+                                    <td class="text-center text-red-600">Reactivas</td>
+                                    <td class="text-center text-green-600 font-bold">Proactivas con IA</td>
+                                    <td class="text-center">
+                                        <span class="advantage-badge">Preventivo</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">Búsqueda de Eventos</td>
+                                    <td class="text-center text-red-600">Manual por fecha/hora</td>
+                                    <td class="text-center text-green-600 font-bold">Búsqueda inteligente</td>
+                                    <td class="text-center">
+                                        <span class="advantage-badge">IA</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">Análisis de Datos</td>
+                                    <td class="text-center text-red-600">No disponible</td>
+                                    <td class="text-center text-green-600 font-bold">Reportes automáticos</td>
+                                    <td class="text-center">
+                                        <span class="advantage-badge">Analytics</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">Escalabilidad</td>
+                                    <td class="text-center text-red-600">Limitada</td>
+                                    <td class="text-center text-green-600 font-bold">Alta escalabilidad</td>
+                                    <td class="text-center">
+                                        <span class="advantage-badge">Flexible</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-6">
+                            <h3 class="text-xl font-bold text-red-800 mb-3">⚠️ Limitaciones Sistema Actual</h3>
+                            <ul class="space-y-2 text-red-700">
+                                <li>• Imágenes pixeladas al hacer zoom</li>
+                                <li>• Gestión compleja con 11 DVRs</li>
+                                <li>• Tiempo limitado de grabación</li>
+                                <li>• Sin capacidades de IA</li>
+                                <li>• Búsqueda manual de eventos</li>
+                                <li>• Alertas solo reactivas</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                            <h3 class="text-xl font-bold text-green-800 mb-3">✅ Ventajas Sistema IP con IA</h3>
+                            <ul class="space-y-2 text-green-700">
+                                <li>• Resolución 4K ultra clara</li>
+                                <li>• Gestión centralizada intuitiva</li>
+                                <li>• Almacenamiento extendido</li>
+                                <li>• IA para detección automática</li>
+                                <li>• Búsqueda inteligente avanzada</li>
+                                <li>• Alertas proactivas y preventivas</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Presupuesto -->
+                <div id="content-presupuesto" class="slide-content">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">
+                        💰 Calculadora de Presupuesto Interactiva
+                    </h2>
+
+                    <div class="budget-calculator mb-8">
+                        <h3 class="text-2xl font-bold mb-6 text-center">🧮 Personaliza tu Presupuesto</h3>
+                        
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                            <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                                <label class="block text-sm font-semibold mb-2">NVR Premium con IA</label>
+                                <div class="flex items-center gap-2">
+                                    <input type="number" id="nvr-qty" class="input-field w-20" value="1" min="1" max="5">
+                                    <span>×</span>
+                                    <input type="number" id="nvr-price" class="input-field w-24" value="8500" step="100">
+                                    <span class="text-sm">USD</span>
+                                </div>
+                                <p class="text-xs mt-1 opacity-80">Sistema con 16 discos x 24TB + IA</p>
+                            </div>
+
+                            <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                                <label class="block text-sm font-semibold mb-2">Licencias IA Key</label>
+                                <div class="flex items-center gap-2">
+                                    <input type="number" id="ia-qty" class="input-field w-20" value="22" min="1" max="100">
+                                    <span>×</span>
+                                    <input type="number" id="ia-price" class="input-field w-24" value="150" step="10">
+                                    <span class="text-sm">USD</span>
+                                </div>
+                                <p class="text-xs mt-1 opacity-80">Una licencia por cámara IP</p>
+                            </div>
+
+                            <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                                <label class="block text-sm font-semibold mb-2">Cámaras IP 4K</label>
+                                <div class="flex items-center gap-2">
+                                    <input type="number" id="cam-qty" class="input-field w-20" value="22" min="1" max="200">
+                                    <span>×</span>
+                                    <input type="number" id="cam-price" class="input-field w-24" value="350" step="25">
+                                    <span class="text-sm">USD</span>
+                                </div>
+                                <p class="text-xs mt-1 opacity-80">Cámaras 8MP con IA integrada</p>
+                            </div>
+
+                            <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                                <label class="block text-sm font-semibold mb-2">Discos Duros 24TB</label>
+                                <div class="flex items-center gap-2">
+                                    <input type="number" id="disk-qty" class="input-field w-20" value="16" min="4" max="32">
+                                    <span>×</span>
+                                    <input type="number" id="disk-price" class="input-field w-24" value="450" step="25">
+                                    <span class="text-sm">USD</span>
+                                </div>
+                                <p class="text-xs mt-1 opacity-80">Discos enterprise para NVR</p>
+                            </div>
+
+                            <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                                <label class="block text-sm font-semibold mb-2">Switches PoE</label>
+                                <div class="flex items-center gap-2">
+                                    <input type="number" id="switch-qty" class="input-field w-20" value="2" min="1" max="10">
+                                    <span>×</span>
+                                    <input type="number" id="switch-price" class="input-field w-24" value="800" step="50">
+                                    <span class="text-sm">USD</span>
+                                </div>
+                                <p class="text-xs mt-1 opacity-80">Switch 48 puertos PoE+</p>
+                            </div>
+
+                            <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                                <label class="block text-sm font-semibold mb-2">Conectividad de Red</label>
+                                <div class="flex items-center gap-2">
+                                    <input type="number" id="network-qty" class="input-field w-20" value="1" min="1" max="5">
+                                    <span>×</span>
+                                    <input type="number" id="network-price" class="input-field w-24" value="2000" step="100">
+                                    <span class="text-sm">USD</span>
+                                </div>
+                                <p class="text-xs mt-1 opacity-80">Cableado, fibra, accesorios</p>
+                            </div>
+                        </div>
+
+                        <!-- Calculadora de Días de Grabación -->
+                        <div class="bg-white bg-opacity-30 rounded-lg p-6 mb-6">
+                            <h4 class="text-xl font-bold mb-4 text-center">📅 Capacidad de Almacenamiento</h4>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-blue-600 mb-2" id="recording-days">310</div>
+                                    <p class="text-sm font-semibold">Días de Grabación</p>
+                                    <p class="text-xs opacity-80 mt-1">Con <span id="cam-count-display">22</span> cámaras 4K</p>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-green-600 mb-2" id="storage-capacity">360</div>
+                                    <p class="text-sm font-semibold">TB de Almacenamiento</p>
+                                    <p class="text-xs opacity-80 mt-1"><span id="backup-info">1 disco para backup</span></p>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="bg-white bg-opacity-50 rounded-lg p-3">
+                                    <div class="flex justify-between text-sm mb-2">
+                                        <span>Discos totales:</span>
+                                        <span id="total-disks" class="font-semibold">16</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm mb-2">
+                                        <span>Discos para grabación:</span>
+                                        <span id="recording-disks" class="font-semibold text-green-600">15</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm mb-3">
+                                        <span>Discos para backup:</span>
+                                        <span class="font-semibold text-blue-600">1</span>
+                                    </div>
+                                    <!-- Barra visual de distribución -->
+                                    <div class="w-full bg-gray-200 rounded-full h-3 mb-2 relative overflow-hidden">
+                                        <div class="bg-gradient-to-r from-green-400 to-green-600 h-3 rounded-full absolute left-0" 
+                                             id="recording-bar" style="width: 93.75%"></div>
+                                        <div class="bg-gradient-to-r from-blue-400 to-blue-600 h-3 rounded-full absolute right-0" 
+                                             id="backup-bar" style="width: 6.25%"></div>
+                                    </div>
+                                    <div class="flex justify-between text-xs opacity-75">
+                                        <span class="text-green-600">Grabación</span>
+                                        <span class="text-blue-600">Backup</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white bg-opacity-30 rounded-lg p-6 text-center">
+                            <h4 class="text-xl font-bold mb-2">Total del Presupuesto</h4>
+                            <div id="total-cost" class="cost-display">$23,300</div>
+                            <p class="text-sm opacity-80 mt-2">*Precios en USD, pueden variar según proveedor</p>
+                        </div>
+                    </div>
+
+                    <!-- Información detallada del cálculo -->
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-6 mb-6">
+                        <h3 class="text-xl font-bold text-green-800 mb-3">📊 Cálculo de Días de Grabación</h3>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="font-semibold text-green-700 mb-2">Base de Cálculo:</h4>
+                                <ul class="text-sm text-green-600 space-y-1">
+                                    <li>• <strong>1 disco 24TB = 310 días para 1 cámara 4K</strong></li>
+                                    <li>• Resolución: 4K (8MP) por cámara</li>
+                                    <li>• Grabación continua 24/7</li>
+                                    <li>• 1 disco reservado para backup</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-green-700 mb-2">Fórmula Aplicada:</h4>
+                                <div class="bg-white rounded p-3 text-sm">
+                                    <div class="font-mono text-green-800">
+                                        Días = (Discos_grabación × 310) ÷ Cámaras_actuales
+                                    </div>
+                                    <div class="text-xs text-gray-600 mt-2">
+                                        Resultado actual: <span id="formula-result" class="font-semibold">310 días</span>
+                                    </div>
+                                    <div class="text-xs text-blue-600 mt-1">
+                                        Ejemplo: 15 discos × 310 ÷ 22 cámaras = 211 días
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                            <h3 class="text-xl font-bold text-blue-800 mb-3">📋 Incluido en el Presupuesto</h3>
+                            <ul class="space-y-2 text-blue-700">
+                                <li>✓ NVR con capacidades de IA</li>
+                                <li>✓ Licencias de IA por cámara</li>
+                                <li>✓ Cámaras IP 4K profesionales</li>
+                                <li>✓ Almacenamiento enterprise</li>
+                                <li>✓ Infraestructura de red PoE</li>
+                                <li>✓ Conectividad y cableado</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+                            <h3 class="text-xl font-bold text-yellow-800 mb-3">⚠️ No Incluido</h3>
+                            <ul class="space-y-2 text-yellow-700">
+                                <li>• Mano de obra de instalación</li>
+                                <li>• Configuración y puesta en marcha</li>
+                                <li>• Capacitación del personal</li>
+                                <li>• Soporte técnico post-instalación</li>
+                                <li>• Garantía extendida opcional</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recomendación -->
+                <div id="content-recomendacion" class="slide-content">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">
+                        🎯 Recomendación Estratégica Final
+                    </h2>
+
+                    <div class="ai-highlight mb-8">
+                        <h3 class="text-2xl font-bold mb-4 text-center">
+                            🏆 Sistema IP Premium con IA - La Elección Inteligente
+                        </h3>
+                        <div class="text-center mb-6">
+                            <div class="cost-display text-white">$23,300 USD</div>
+                            <p class="text-lg opacity-90">Inversión estratégica en tecnología de vanguardia</p>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6 mb-8">
+                        <div class="feature-card">
+                            <h4 class="text-xl font-bold text-gray-800 mb-3">🚀 Ventajas Inmediatas</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-start">
+                                    <span class="text-green-500 mr-2">✓</span>
+                                    <strong>Aprovechamiento de infraestructura modernizada</strong>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-500 mr-2">✓</span>
+                                    Reducción del 70% en costos de instalación de red
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-500 mr-2">✓</span>
+                                    Implementación 50% más rápida
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-500 mr-2">✓</span>
+                                    Mínimas interrupciones operativas
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4 class="text-xl font-bold text-gray-800 mb-3">🎯 Beneficios a Largo Plazo</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-start">
+                                    <span class="text-blue-500 mr-2">▶</span>
+                                    ROI positivo en 18-24 meses
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-blue-500 mr-2">▶</span>
+                                    Reducción 80% en tiempo de investigación
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-blue-500 mr-2">▶</span>
+                                    Automatización completa del monitoreo
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-blue-500 mr-2">▶</span>
+                                    Escalabilidad para crecimiento futuro
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="infrastructure-highlight mb-8">
+                        <h4 class="text-xl font-bold mb-4">🛠️ Plan de Implementación Recomendado</h4>
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                                <h5 class="font-bold mb-2">Mes 1-2: Preparación</h5>
+                                <ul class="text-sm space-y-1">
+                                    <li>• Aprovechamiento infraestructura</li>
+                                    <li>• Instalación de NVR y switches</li>
+                                    <li>• Pruebas de conectividad</li>
+                                </ul>
+                            </div>
+                            <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                                <h5 class="font-bold mb-2">Mes 2-3: Migración</h5>
+                                <ul class="text-sm space-y-1">
+                                    <li>• Instalación gradual de cámaras</li>
+                                    <li>• Configuración de IA</li>
+                                    <li>• Operación en paralelo</li>
+                                </ul>
+                            </div>
+                            <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                                <h5 class="font-bold mb-2">Mes 3-4: Optimización</h5>
+                                <ul class="text-sm space-y-1">
+                                    <li>• Capacitación del personal</li>
+                                    <li>• Ajustes de IA</li>
+                                    <li>• Desactivación sistema anterior</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-green-50 border border-green-400 border-l-4 p-6 rounded-r-lg">
+                        <h4 class="text-lg font-bold text-green-800 mb-2">✅ Decisión Recomendada</h4>
+                        <p class="text-green-700 text-lg leading-relaxed">
+                            <strong>Proceder con la implementación del Sistema IP Premium con IA.</strong> 
+                            El momento es ideal: la modernización de infraestructura en curso por el área tecnológica 
+                            reduce significativamente los costos y riesgos de implementación. Esta inversión de $23,300 
+                            transformará el CCTV de un sistema reactivo a una plataforma inteligente y proactiva, 
+                            proporcionando capacidades de IA avanzadas y posicionando a la empresa a la vanguardia 
+                            tecnológica en seguridad empresarial.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = ['beneficios', 'infraestructura', 'comparacion', 'presupuesto', 'recomendacion'];
+            
+            tabs.forEach(tab => {
+                document.getElementById(`tab-${tab}`).addEventListener('click', () => {
+                    showTab(tab);
+                });
+            });
+
+            // Budget calculator
+            const inputs = ['nvr-qty', 'nvr-price', 'ia-qty', 'ia-price', 'cam-qty', 'cam-price', 
+                          'disk-qty', 'disk-price', 'switch-qty', 'switch-price', 'network-qty', 'network-price'];
+            
+            inputs.forEach(inputId => {
+                document.getElementById(inputId).addEventListener('input', function() {
+                    calculateTotal();
+                    calculateRecordingDays();
+                });
+            });
+
+            calculateTotal(); // Initial calculation
+            calculateRecordingDays(); // Initial recording days calculation
+        });
+
+        function showTab(activeTab) {
+            const tabs = ['beneficios', 'infraestructura', 'comparacion', 'presupuesto', 'recomendacion'];
+            
+            tabs.forEach(tab => {
+                const tabButton = document.getElementById(`tab-${tab}`);
+                const tabContent = document.getElementById(`content-${tab}`);
+                
+                if (tab === activeTab) {
+                    tabButton.classList.add('active');
+                    tabContent.classList.add('active');
+                } else {
+                    tabButton.classList.remove('active');
+                    tabContent.classList.remove('active');
+                }
+            });
+        }
+
+        function calculateTotal() {
+            const nvrTotal = getValue('nvr-qty') * getValue('nvr-price');
+            const iaTotal = getValue('ia-qty') * getValue('ia-price');
+            const camTotal = getValue('cam-qty') * getValue('cam-price');
+            const diskTotal = getValue('disk-qty') * getValue('disk-price');
+            const switchTotal = getValue('switch-qty') * getValue('switch-price');
+            const networkTotal = getValue('network-qty') * getValue('network-price');
+            
+            const total = nvrTotal + iaTotal + camTotal + diskTotal + switchTotal + networkTotal;
+            
+            document.getElementById('total-cost').textContent = `$${total.toLocaleString()}`;
+        }
+
+        function getValue(id) {
+            return parseInt(document.getElementById(id).value) || 0;
+        }
+
+        function calculateRecordingDays() {
+            const totalDisks = getValue('disk-qty');
+            const totalCameras = getValue('cam-qty');
+            
+            // 1 disco se reserva para backup
+            const recordingDisks = Math.max(0, totalDisks - 1);
+            
+            // CÁLCULO CORREGIDO: 1 disco de 24TB = 310 días para 1 cámara 4K
+            // Fórmula: (discos_grabación × 310) ÷ número_cámaras
+            const daysPerDiskPerCamera = 310; // días que dura 1 disco de 24TB con 1 cámara 4K
+            
+            let recordingDays = 0;
+            if (totalCameras > 0) {
+                recordingDays = Math.floor((recordingDisks * daysPerDiskPerCamera) / totalCameras);
+            }
+            
+            // Capacidad total de almacenamiento
+            const totalStorage = totalDisks * 24; // TB
+            const recordingStorage = recordingDisks * 24; // TB
+            
+            // Actualizar la interfaz
+            document.getElementById('recording-days').textContent = recordingDays;
+            document.getElementById('storage-capacity').textContent = recordingStorage;
+            document.getElementById('cam-count-display').textContent = totalCameras;
+            document.getElementById('total-disks').textContent = totalDisks;
+            document.getElementById('recording-disks').textContent = recordingDisks;
+            
+            // Actualizar información de backup
+            const backupInfo = totalDisks >= 1 ? '1 disco para backup' : 'Sin disco de backup';
+            document.getElementById('backup-info').textContent = backupInfo;
+            
+            // Actualizar barra visual
+            if (totalDisks > 0) {
+                const recordingPercentage = (recordingDisks / totalDisks) * 100;
+                const backupPercentage = Math.min((1 / totalDisks) * 100, 100);
+                
+                document.getElementById('recording-bar').style.width = recordingPercentage + '%';
+                document.getElementById('backup-bar').style.width = backupPercentage + '%';
+            }
+            
+            // Actualizar resultado de la fórmula
+            document.getElementById('formula-result').textContent = recordingDays + ' días';
+        }
+
+        // Initialize with first tab
+        showTab('beneficios');
+    </script>
+</body>
+</html>

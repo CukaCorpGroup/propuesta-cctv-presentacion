@@ -1,0 +1,170 @@
+/* AG Grid Theme - MUST be first */
+@import "ag-grid-community/styles/ag-grid.css";
+@import "ag-grid-community/styles/ag-theme-alpine.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  background-color: #f8fafc;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Glass morphism utility */
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #1e40af 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card hover effect */
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+
+/* AG Grid Custom Styling */
+.ag-theme-alpine {
+  --ag-alpine-active-color: #3b82f6;
+  --ag-selected-row-background-color: rgba(59, 130, 246, 0.1);
+  --ag-row-hover-color: rgba(59, 130, 246, 0.05);
+  --ag-header-background-color: #f8fafc;
+  --ag-border-color: #e2e8f0;
+  --ag-row-border-color: #f1f5f9;
+  --ag-font-family: 'Inter', system-ui, sans-serif;
+  --ag-font-size: 13px;
+  --ag-cell-horizontal-padding: 16px;
+}
+
+.ag-theme-alpine .ag-header {
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.ag-theme-alpine .ag-header-cell {
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+}
+
+/* Align numeric column headers to the right */
+.ag-theme-alpine .ag-header-cell.ag-right-aligned-header .ag-header-cell-label {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+
+/* Ensure proper header-cell alignment */
+.ag-theme-alpine .ag-header-cell-label {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.ag-theme-alpine .ag-cell {
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+}
+
+.ag-theme-alpine .ag-cell-custom {
+  padding: 8px 16px;
+}
+
+.ag-theme-alpine .ag-cell-edit-wrapper {
+  padding: 4px 8px;
+}
+
+.ag-theme-alpine .ag-row-pinned {
+  font-weight: 700 !important;
+  background-color: #f0f9ff !important;
+}
+
+.ag-theme-alpine .ag-cell-inline-editing {
+  border: 2px solid #3b82f6 !important;
+  background-color: #fff !important;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2) !important;
+}
+
+.ag-theme-alpine .ag-status-bar {
+  border-top: 1px solid #e2e8f0;
+  background: #f8fafc;
+  padding: 8px 16px;
+}
+
+.ag-theme-alpine .ag-floating-filter-input {
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+/* Flash effect for changed cells */
+.ag-theme-alpine .ag-cell-data-changed {
+  background-color: #bbf7d0 !important;
+}
+
+.ag-theme-alpine .ag-cell-data-changed-animation {
+  animation: cell-flash 1s ease-out;
+}
+
+@keyframes cell-flash {
+  0% { background-color: #bbf7d0; }
+  100% { background-color: transparent; }
+}
